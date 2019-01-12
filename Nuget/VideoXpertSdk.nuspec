@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package>
+  <metadata>
+    <id>VideoXpertSdk</id>
+    <title>VideoXpert SDK</title>
+    <version>3.0.0000</version>
+    <authors>Pelco by Schneider Electric</authors>
+    <owners>Pelco by Schneider Electric</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <iconUrl>https://raw.githubusercontent.com/pelcointegrations/VideoXpertSdk/master/Nuget/pelco-integrations-64x64.png</iconUrl>
+    <projectUrl>https://github.com/pelcointegrations/VideoXpertSdk</projectUrl>
+    <repository type="git" url="https://github.com/pelcointegrations/VideoXpertSdk" />
+    <description>Pelco by Schneider Electric offers the Pelco VideoXpert Software Development Kit (VideoXpert SDK) to help development partners write applications that communicate with Pelco products and integrate with non-Pelco products and software. The Pelco VideoXpert SDK handles the interface to VideoXpert, which then communicates with various Pelco devices on behalf of your application.</description>
+    <summary>A software development kit for third party vendors to integrate with the VideoXpert platform.</summary>
+    <copyright>Copyright ©2019 Pelco</copyright>
+    <tags>native, videoxpertsdk, videoxpert, vxsdk, sdk, pelco, schneider-electric</tags>
+  </metadata>
+  <files>
+    <!-- Include header files-->
+    <file src="..\VideoXpertSdk\Include\*" target="\build\native\include\" />
+
+    <!-- Win32 v140 -->
+    <file src="..\VideoXpertSdk\Bin\Win32\VxSdk.dll" target="\build\native\Win32\bin\" />
+    <file src="..\VideoXpertSdk\Lib\Win32\VxSdk.lib" target="\build\native\Win32\lib\" />
+    <file src="..\VideoXpertSdk\Bin\Win32\cpprest140_2_9.dll" target="\build\native\Win32\bin\" />
+
+    <!-- x64 v140 -->
+    <file src="..\VideoXpertSdk\Bin\x64\VxSdk.dll" target="\build\native\x64\bin\" />
+    <file src="..\VideoXpertSdk\Lib\x64\VxSdk.lib" target="\build\native\x64\lib\" />
+    <file src="..\VideoXpertSdk\Bin\x64\cpprest140_2_9.dll" target="\build\native\x64\bin\" />
+
+    <!-- vs targets file -->
+    <file src="VideoXpertSdk.targets" target="\build\native\VideoXpertSdk.targets"/>
+  </files>
+</package>

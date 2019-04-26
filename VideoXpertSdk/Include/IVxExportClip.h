@@ -15,7 +15,7 @@ namespace VxSdk {
         /// <summary>
         /// The unique identifier of the export clips data source.
         /// </summary>
-        char dataSourceId[64];
+        char dataSourceId[MAX_UUID_LENGTH];
         /// <summary>
         /// The time at which the export media ends.
         /// </summary>

@@ -33,7 +33,7 @@ namespace VxSdk {
         /// <summary>
         /// The unique identifier of the clips data source.
         /// </summary>
-        char dataSourceId[64];
+        char dataSourceId[MAX_UUID_LENGTH];
         /// <summary>
         /// The friendly name of the clips data source.
         /// </summary>

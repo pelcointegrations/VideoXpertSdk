@@ -3,6 +3,11 @@
 
 namespace VxSdk {
     /// <summary>
+    /// Global Defines
+    /// </summary>
+    #define MAX_UUID_LENGTH         1024
+
+    /// <summary>
     /// Values that represent the current acknowledgement state of an event.
     /// </summary>
     struct VxAckState {

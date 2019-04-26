@@ -37,7 +37,7 @@ namespace VxSdk {
         /// <summary>
         /// The unique identifier of the gapped data source.
         /// </summary>
-        char dataSourceId[64];
+        char dataSourceId[MAX_UUID_LENGTH];
         /// <summary>
         /// The unique identifier of the data storage with the gap.
         /// </summary>

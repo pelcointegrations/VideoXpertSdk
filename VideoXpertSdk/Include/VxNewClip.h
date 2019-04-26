@@ -52,7 +52,7 @@ namespace VxSdk {
         /// <summary>
         /// The unique identifier of the data source that generated the desired data.
         /// </summary>
-        char dataSourceId[64];
+        char dataSourceId[MAX_UUID_LENGTH];
         /// <summary>
         /// The unique identifier of the data storage to retrieve the data from. The host device type must be
         /// <see cref="VxDeviceType::Value::kCamera"/> (it must be a camera supporting edge storage).

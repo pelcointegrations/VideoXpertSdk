@@ -57,7 +57,7 @@ namespace VxSdk {
         /// <summary>
         /// The unique identifier of the associated data source.
         /// </summary>
-        char dataSourceId[64];
+        char dataSourceId[MAX_UUID_LENGTH];
         /// <summary>
         /// The friendly description of the bookmark.
         /// </summary>

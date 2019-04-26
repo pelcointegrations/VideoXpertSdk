@@ -70,8 +70,8 @@ namespace VxSdk {
         /// <summary>
         /// Continuously moves the field of view at the given speed until stopped.
         /// </summary>
-        /// <param name="speedX">Pan speed. Negative values pan left, positive values pan right.</param>
-        /// <param name="speedY">Tilt speed. Negative values tilt downward, positive values tilt upward.</param>
+        /// <param name="speedX">Pan speed percentage (-100 to +100). Negative values pan left, positive values pan right.</param>
+        /// <param name="speedY">Tilt speed percentage (-100 to +100). Negative values tilt downward, positive values tilt upward.</param>
         /// <param name="inOut">The direction to zoom.</param>
         /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
         virtual VxResult::Value ContinuousMove(int speedX, int speedY, VxZoomDirection::Value inOut) const = 0;

@@ -54,7 +54,7 @@ namespace VxSdk {
         /// <summary>
         /// The unique identifier of the data source to associate with the marker, if any.
         /// </summary>
-        char associatedDataSourceId[64];
+        char associatedDataSourceId[MAX_UUID_LENGTH];
         /// <summary>
         /// The friendly name of the layer that this marker is on, if any.
         /// </summary>

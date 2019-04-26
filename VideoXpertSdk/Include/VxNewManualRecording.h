@@ -47,7 +47,7 @@ namespace VxSdk {
         /// <summary>
         /// The unique identifier of the data source to manually record.
         /// </summary>
-        char dataSourceId[64];
+        char dataSourceId[MAX_UUID_LENGTH];
         /// <summary>
         /// The amount of time, from 0 to 30 seconds, to record after the manual recording is stopped.
         /// </summary>

@@ -28,7 +28,7 @@ namespace VxSdk {
         /// The ID of the data source to display or a <c>nullptr</c> to remove the current data source.
         /// </param>
         /// <returns>The <see cref="VxResult::Value">Result</see> of setting the property.</returns>
-        virtual VxResult::Value SetDataSource(char dataSourceId[64]) = 0;
+        virtual VxResult::Value SetDataSource(char dataSourceId[MAX_UUID_LENGTH]) = 0;
         /// <summary>
         /// Sets the play speed of the monitor data. Negative values indicate reverse speeds while positive values
         /// indicate forward speeds (1 is normal speed). A value of 0 will pause the data playback.
@@ -48,7 +48,7 @@ namespace VxSdk {
         /// <summary>
         /// The unique identifier of the data source displayed in the cell.
         /// </summary>
-        char dataSourceId[64];
+        char dataSourceId[MAX_UUID_LENGTH];
         /// <summary>
         /// The unique index of the cell based on its position within the current layout.
         /// </summary>

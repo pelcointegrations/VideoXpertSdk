@@ -56,7 +56,7 @@ namespace VxSdk {
         /// <summary>
         /// The unique identifier of the data source.
         /// </summary>
-        char dataSourceId[64];
+        char dataSourceId[MAX_UUID_LENGTH];
         /// <summary>
         /// The time at which the clip ends.
         /// </summary>

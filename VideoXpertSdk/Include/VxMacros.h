@@ -18,6 +18,8 @@
 #else
 #define VXAPI __attribute__((visibility("default")))
 #define strncpy_s(dest, destsz, source, count)    strncpy( (dest), (source), (count) )
+#define sscanf_s sscanf
+#define _strdup strdup
 #define localtime_s(time, result)                 localtime( (result) )
 #define gmtime_s(time, result)                    gmtime( (result) )
 #endif

@@ -4,16 +4,16 @@
     <id>VideoXpertSdk</id>
     <title>VideoXpert SDK</title>
     <version>3.0.0000</version>
-    <authors>Pelco by Schneider Electric</authors>
-    <owners>Pelco by Schneider Electric</owners>
+    <authors>Pelco</authors>
+    <owners>Pelco</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <iconUrl>https://raw.githubusercontent.com/pelcointegrations/VideoXpertSdk/master/Nuget/pelco-integrations-64x64.png</iconUrl>
     <projectUrl>https://github.com/pelcointegrations/VideoXpertSdk</projectUrl>
     <repository type="git" url="https://github.com/pelcointegrations/VideoXpertSdk" />
-    <description>Pelco by Schneider Electric offers the Pelco VideoXpert Software Development Kit (VideoXpert SDK) to help development partners write applications that communicate with Pelco products and integrate with non-Pelco products and software. The Pelco VideoXpert SDK handles the interface to VideoXpert, which then communicates with various Pelco devices on behalf of your application.</description>
+    <description>Pelco offers the Pelco VideoXpert Software Development Kit (VideoXpert SDK) to help development partners write applications that communicate with Pelco products and integrate with non-Pelco products and software. The Pelco VideoXpert SDK handles the interface to VideoXpert, which then communicates with various Pelco devices on behalf of your application.</description>
     <summary>A software development kit for third party vendors to integrate with the VideoXpert platform.</summary>
     <copyright>Copyright ©2019 Pelco</copyright>
-    <tags>native, videoxpertsdk, videoxpert, vxsdk, sdk, pelco, schneider-electric</tags>
+    <tags>native, videoxpertsdk, videoxpert, vxsdk, sdk, pelco</tags>
   </metadata>
   <files>
     <!-- Include header files-->

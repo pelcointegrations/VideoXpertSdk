@@ -22,12 +22,10 @@
     <!-- Win32 v140 -->
     <file src="..\VideoXpertSdk\Bin\Win32\VxSdk.dll" target="\build\native\Win32\bin\" />
     <file src="..\VideoXpertSdk\Lib\Win32\VxSdk.lib" target="\build\native\Win32\lib\" />
-    <file src="..\VideoXpertSdk\Bin\Win32\cpprest140_2_9.dll" target="\build\native\Win32\bin\" />
 
     <!-- x64 v140 -->
     <file src="..\VideoXpertSdk\Bin\x64\VxSdk.dll" target="\build\native\x64\bin\" />
     <file src="..\VideoXpertSdk\Lib\x64\VxSdk.lib" target="\build\native\x64\lib\" />
-    <file src="..\VideoXpertSdk\Bin\x64\cpprest140_2_9.dll" target="\build\native\x64\bin\" />
 
     <!-- vs targets file -->
     <file src="VideoXpertSdk.targets" target="\build\native\VideoXpertSdk.targets"/>

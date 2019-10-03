@@ -1,1 +1,1 @@
-# VideoXpertSDK-3.0.111-75933dca
+# VideoXpertSDK-3.0.112-de2b350b

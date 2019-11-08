@@ -101,11 +101,11 @@ namespace VxSdk {
         /// <summary>
         /// The name of the situation that led to the generation of this event.
         /// </summary>
-        char situationName[256];
+        char situationName[MAX_SITUATION_NAME_LENGTH];
         /// <summary>
         /// The type of the situation that led to the generation of this event.
         /// </summary>
-        char situationType[128];
+        char situationType[MAX_SITUATION_TYPE_LENGTH];
         /// <summary>
         /// The client identifier of the client that was the cause of the situation, if any.
         /// </summary>

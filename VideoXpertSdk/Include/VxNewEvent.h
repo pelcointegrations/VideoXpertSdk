@@ -71,7 +71,7 @@ namespace VxSdk {
         /// <summary>
         /// The identifier for the type of situation that led to this new event.
         /// </summary>
-        char situationType[128];
+        char situationType[MAX_SITUATION_TYPE_LENGTH];
         /// <summary>
         /// The unique identifier of the device that the situation occurred on.
         /// </summary>

@@ -130,7 +130,7 @@ namespace VxSdk {
         /// </summary>
         /// <param name="name">The new name value.</param>
         /// <returns>The <see cref="VxResult::Value">Result</see> of setting the property.</returns>
-        virtual VxResult::Value SetName(char name[64]) = 0;
+        virtual VxResult::Value SetName(char name[MAX_SITUATION_NAME_LENGTH]) = 0;
         /// <summary>
         /// Sets the severity property.
         /// </summary>
@@ -185,7 +185,7 @@ namespace VxSdk {
         /// <summary>
         /// The friendly name of the situation.
         /// </summary>
-        char name[64];
+        char name[MAX_SITUATION_NAME_LENGTH];
         /// <summary>
         /// The name of the key in the properties map corresponding to the service identifier for the source of this
         /// situation, if any.
@@ -202,7 +202,7 @@ namespace VxSdk {
         /// <summary>
         /// The situation type.
         /// </summary>
-        char type[128];
+        char type[MAX_SITUATION_TYPE_LENGTH];
         /// <summary>
         /// The unique identifiers of the notifications configured for this situation.
         /// </summary>

@@ -56,7 +56,7 @@ namespace VxSdk {
         /// The situation type. This trigger will be checked each time this type of situation occurs. If empty, this
         /// trigger will always be inactive.
         /// </summary>
-        char situationType[128];
+        char situationType[MAX_SITUATION_TYPE_LENGTH];
         /// <summary>
         /// The size of <see cref="sourceRef"/>.
         /// </summary>

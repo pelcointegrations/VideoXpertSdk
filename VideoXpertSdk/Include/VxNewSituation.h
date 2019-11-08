@@ -127,7 +127,7 @@ namespace VxSdk {
         /// <summary>
         /// The situation friendly name; forward slashes are not allowed.
         /// </summary>
-        char name[64];
+        char name[MAX_SITUATION_NAME_LENGTH];
         /// <summary>
         /// The unique source identifier. This field acts an optional constraint on the source of
         /// events for this situation. If specified, any events matching the situation type must also match
@@ -140,7 +140,7 @@ namespace VxSdk {
         /// allowed. These strings describe the &lt;company&gt; that manufactured the device that was the source of the
         /// &lt;event&gt;.
         /// </summary>
-        char type[128];
+        char type[MAX_SITUATION_TYPE_LENGTH];
         /// <summary>
         /// The seconds to wait between audible notifications.
         /// </summary>

@@ -67,7 +67,7 @@ namespace VxSdk {
         /// <summary>
         /// The <c>IVxEvent::situationType</c> that will activate the schedule trigger, if any.
         /// </summary>
-        char eventSituationType[128];
+        char eventSituationType[MAX_SITUATION_TYPE_LENGTH];
         /// <summary>
         /// The unique identifier of the schedule trigger. If not supplied, the system will create the identifier.
         /// </summary>

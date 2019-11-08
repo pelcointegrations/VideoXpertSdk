@@ -41,7 +41,7 @@ namespace VxSdk {
         /// </summary>
         /// <param name="eventSituationType">The event situation type.</param>
         /// <returns>The <see cref="VxResult::Value">Result</see> of setting the property.</returns>
-        virtual VxResult::Value SetEventSituationType(char eventSituationType[128]) = 0;
+        virtual VxResult::Value SetEventSituationType(char eventSituationType[MAX_SITUATION_TYPE_LENGTH]) = 0;
         /// <summary>
         /// Sets the framerate level to record at.
         /// </summary>
@@ -82,7 +82,7 @@ namespace VxSdk {
         /// <summary>
         /// The <see cref="IVxEvent::situationType">type</see> of event that will activate this trigger, if any.
         /// </summary>
-        char eventSituationType[128];
+        char eventSituationType[MAX_SITUATION_TYPE_LENGTH];
         /// <summary>
         /// The unique identifier of the schedule trigger.
         /// </summary>

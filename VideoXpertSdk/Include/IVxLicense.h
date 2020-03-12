@@ -37,7 +37,14 @@ namespace VxSdk {
         /// </param>
         /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
         virtual VxResult::Value GetLicenseFeatures(VxCollection<IVxLicenseFeature**>& licenseFeatureCollection) const = 0;
-
+        /// <summary>
+        /// Gets the software upgrade licensing information.
+        /// <para>Note: Only available when logged in as the built-in admin user.</para>
+        /// </summary>
+        /// <param name="licenseSup">The <see cref="VxLicenseSup"/> for this system.</param>
+        /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
+        virtual VxResult::Value GetLicenseSup(VxLicenseSup*& licenseSup) const = 0;
+        
     public:
         /// <summary>
         /// The friendly name of the owning company/organization.

@@ -24,6 +24,12 @@ namespace VxSdk {
         /// <returns>The <see cref="VxResult::Value">Result</see> of deleting the tag.</returns>
         virtual VxResult::Value DeleteTag() const = 0;
         /// <summary>
+        /// Gets the limits related to this resource.
+        /// </summary>
+        /// <param name="limits">The limits related to this resource.</param>
+        /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
+        virtual VxResult::Value GetLimits(VxLimits*& limits) const = 0;
+        /// <summary>
         /// Gets the data sources associated with this tag.
         /// <para>Available filters: kAdvancedQuery, kModifiedSince.</para>
         /// </summary>

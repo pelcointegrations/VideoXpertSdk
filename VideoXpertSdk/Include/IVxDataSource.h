@@ -14,8 +14,10 @@
 #include "IVxTag.h"
 #include "IVxGap.h"
 #include "IVxBookmark.h"
+#include "IVxAnalyticSession.h"
 
 namespace VxSdk {
+    struct IVxMember;
     struct IVxPixelSearch;
     struct VxNewPixelSearch;
     struct IVxDevice;
@@ -27,6 +29,12 @@ namespace VxSdk {
     /// </summary>
     struct IVxDataSource {
     public:
+        /// <summary>
+        /// Adds a new analytic session.
+        /// </summary>
+        /// <param name="newAnalyticSession">The new analytic session to be added.</param>
+        /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
+        virtual VxResult::Value AddAnalyticSession(VxNewAnalyticSession& newAnalyticSession) const = 0;
         /// <summary>
         /// Gets a value indicating whether pixel search is available for this data source.
         /// </summary>
@@ -79,6 +87,21 @@ namespace VxSdk {
         /// <param name="dataStorageCollection">A <see cref="VxCollection"/> of data storages.</param>
         /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
         virtual VxResult::Value GetAllDataStorages(VxCollection<IVxDataStorage**>& dataStorageCollection) const = 0;
+        /// <summary>
+        /// Gets the analytic configuration for this data source.
+        /// </summary>
+        /// <param name="analyticConfig">The <see cref="IVxAnalyticConfig"/> for this data source.</param>
+        /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
+        virtual VxResult::Value GetAnalyticConfig(IVxAnalyticConfig*& analyticConfig) const = 0;
+        /// <summary>
+        /// Gets the analytic sessions for this data source.
+        /// <para>Available filters: kAdvancedQuery, kDataSourceId, kDeviceId, kId, kModifiedSince.</para>
+        /// </summary>
+        /// <param name="analyticSessionCollection">
+        /// A <see cref="VxCollection"/> of the analytic sessions for this data source.
+        /// </param>
+        /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
+        virtual VxResult::Value GetAnalyticSessions(VxCollection<IVxAnalyticSession**>& analyticSessionCollection) const = 0;
         /// <summary>
         /// Gets all possible audio resource relations for this data source (both linked and non-linked). Each linked
         /// resource shall be considered to be associated to this data source while non-linked resources shall not be
@@ -138,6 +161,18 @@ namespace VxSdk {
         /// <param name="hostDevice">The host <see cref="IVxDevice"/>.</param>
         /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
         virtual VxResult::Value GetHostDevice(IVxDevice*& hostDevice) const = 0;
+        /// <summary>
+        /// Gets the limits related to this resource.
+        /// </summary>
+        /// <param name="limits">The limits related to this resource.</param>
+        /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
+        virtual VxResult::Value GetLimits(VxLimits*& limits) const = 0;
+        /// <summary>
+        /// Gets the <see cref="IVxMember"/> that this data source resides in.
+        /// </summary>
+        /// <param name="member">The <see cref="IVxMember"/> this data source resides in..</param>
+        /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
+        virtual VxResult::Value GetMember(IVxMember*& member) const = 0;
         /// <summary>
         /// Gets all possible metadata resource relations for this data source (both linked and non-linked). Each
         /// linked resource shall be considered to be associated to this data source while non-linked resources shall
@@ -266,6 +301,14 @@ namespace VxSdk {
         /// </summary>
         char snapshotUri[512];
         /// <summary>
+        /// The source URI of the data source.
+        /// </summary>
+        char sourceEndpoint[512];
+        /// <summary>
+        /// The size of <see cref="capabilities"/>.
+        /// </summary>
+        int capabilitiesSize;
+        /// <summary>
         /// The size of <see cref="dataInterfaces"/>.
         /// </summary>
         int dataInterfaceSize;
@@ -274,6 +317,10 @@ namespace VxSdk {
         /// within the host device.
         /// </summary>
         int index;
+        /// <summary>
+        /// The size of <see cref="linkedPtzInfo"/>.
+        /// </summary>
+        int linkedPtzInfoSize;
         /// <summary>
         /// The number used to designate the data source.
         /// </summary>
@@ -289,6 +336,10 @@ namespace VxSdk {
         /// </summary>
         IVxDataInterface** dataInterfaces;
         /// <summary>
+        /// List of capabilities supported by this data source, if any.
+        /// </summary>
+        VxDataSourceCapability::Value* capabilities;
+        /// <summary>
         /// The type of media this data source contains.
         /// </summary>
         VxDataSourceType::Value type;
@@ -296,19 +347,30 @@ namespace VxSdk {
         /// The current operational state of the associated device.
         /// </summary>
         VxDeviceState::Value state;
+        /// <summary>
+        /// Provides information on any data sources that are tracking this data source. Only available if this data
+        /// source supports linked PTZ. 
+        /// </summary>
+        VxLinkedPtzInfo* linkedPtzInfo;
 
     protected:
         /// <summary>
         /// Clears this instance.
         /// </summary>
         void Clear() {
+            this->capabilities = nullptr;
             this->dataInterfaces = nullptr;
+            this->linkedPtzInfo = nullptr;
+            VxZeroArray(this->encoding);
             VxZeroArray(this->id);
             VxZeroArray(this->ip);
             VxZeroArray(this->name);
-            VxZeroArray(this->encoding);
+            VxZeroArray(this->snapshotUri);
+            VxZeroArray(this->sourceEndpoint);
+            this->capabilitiesSize = 0;
             this->dataInterfaceSize = 0;
             this->index = 0;
+            this->linkedPtzInfoSize = 0;
             this->number = 0;
             this->retentionLimit = 0;
             this->isCapturing = false;

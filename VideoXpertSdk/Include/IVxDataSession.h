@@ -44,6 +44,12 @@ namespace VxSdk {
         /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
         virtual VxResult::Value GetDataSource(IVxDataSource*& dataSource) const = 0;
         /// <summary>
+        /// Gets the limits related to this resource.
+        /// </summary>
+        /// <param name="limits">The limits related to this resource.</param>
+        /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
+        virtual VxResult::Value GetLimits(VxLimits*& limits) const = 0;
+        /// <summary>
         /// Gets the <see cref="IVxUser"/> that this session is being used by, if any.
         /// </summary>
         /// <param name="user">The <see cref="IVxUser"/> using this session.</param>

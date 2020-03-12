@@ -23,6 +23,8 @@ namespace VxSdk {
         /// </summary>
         /// <param name="ref">The reference.</param>
         VxNewUser(const VxNewUser& ref) {
+            this->canBypassLdap = ref.canBypassLdap;
+            this->isPasswordExpirationDisabled = ref.isPasswordExpirationDisabled;
             this->mustChangePassword = ref.mustChangePassword;
             Utilities::StrCopySafe(this->domain, ref.domain);
             Utilities::StrCopySafe(this->email, ref.email);
@@ -52,6 +54,8 @@ namespace VxSdk {
         /// Clears this instance.
         /// </summary>
         void Clear() {
+            this->canBypassLdap = false;
+            this->isPasswordExpirationDisabled = false;
             this->mustChangePassword = false;
             VxZeroArray(this->domain);
             VxZeroArray(this->email);
@@ -66,6 +70,16 @@ namespace VxSdk {
         }
 
     public:
+        /// <summary>
+        /// If <c>true</c>, the user can login to the system using local credentials instead of using the LDAP
+        /// authentication.
+        /// </summary>
+        bool canBypassLdap;
+        /// <summary>
+        /// If <c>true</c>, password expiration will be disable for this account; <c>false</c> will use the
+        /// global password expiration setting for this account.
+        /// </summary>
+        bool isPasswordExpirationDisabled;
         /// <summary>
         /// If <c>true</c>, the new user will be forced to change their password the first time they log in.
         /// </summary>

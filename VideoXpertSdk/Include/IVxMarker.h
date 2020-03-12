@@ -49,6 +49,12 @@ namespace VxSdk {
         /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
         virtual VxResult::Value GetDrawing(IVxDrawing*& drawing) const = 0;
         /// <summary>
+        /// Gets the limits related to this resource.
+        /// </summary>
+        /// <param name="limits">The limits related to this resource.</param>
+        /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
+        virtual VxResult::Value GetLimits(VxLimits*& limits) const = 0;
+        /// <summary>
         /// Refreshes this objects member values by retrieving its current information from the VideoXpert system.
         /// </summary>
         /// <returns>The <see cref="VxResult::Value">Result</see> of refreshing this objects member values.</returns>

@@ -8,6 +8,7 @@
 #include "IVxDataObject.h"
 #include "IVxTag.h"
 #include "IVxRole.h"
+#include "IVxUserAccount.h"
 
 namespace VxSdk {
     /// <summary>
@@ -47,6 +48,12 @@ namespace VxSdk {
         /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
         virtual VxResult::Value GetDataObjects(VxCollection<IVxDataObject**>& dataObjectCollection) const = 0;
         /// <summary>
+        /// Gets the limits related to this resource.
+        /// </summary>
+        /// <param name="limits">The limits related to this resource.</param>
+        /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
+        virtual VxResult::Value GetLimits(VxLimits*& limits) const = 0;
+        /// <summary>
         /// Gets the roles associated with this user.
         /// <para>Available filters: kAdvancedQuery, kId, kInternal, kModifiedSince, kName.</para>
         /// </summary>
@@ -64,6 +71,12 @@ namespace VxSdk {
         /// <param name="tagCollection">A <see cref="VxCollection"/> of tags available to the user.</param>
         /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
         virtual VxResult::Value GetTags(VxCollection<IVxTag**>& tagCollection) const = 0;
+        /// <summary>
+        /// Gets the <see cref="IVxUserAccount"/> configuration for this user.
+        /// </summary>
+        /// <param name="userAccount"> The <see cref="IVxUserAccount"/> for this user. </param>
+        /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
+        virtual VxResult::Value GetUserAccount(IVxUserAccount*& userAccount) const = 0;
         /// <summary>
         /// Refreshes this objects member values by retrieving its current information from the VideoXpert system.
         /// </summary>

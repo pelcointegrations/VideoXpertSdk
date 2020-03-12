@@ -33,6 +33,12 @@ namespace VxSdk {
         /// <returns>The <see cref="VxResult::Value">Result</see> of deleting this role.</returns>
         virtual VxResult::Value DeleteRole() const = 0;
         /// <summary>
+        /// Gets the limits related to this resource.
+        /// </summary>
+        /// <param name="limits">The limits related to this resource.</param>
+        /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
+        virtual VxResult::Value GetLimits(VxLimits*& limits) const = 0;
+        /// <summary>
         /// Gets the privileges assigned to this role.
         /// </summary>
         /// <param name="privilegeCollection">The privileges assigned to this role.</param>

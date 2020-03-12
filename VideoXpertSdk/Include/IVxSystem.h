@@ -21,6 +21,7 @@
 #include "VxNewDataObject.h"
 #include "VxNewEvent.h"
 #include "VxNewExport.h"
+#include "VxNewMember.h"
 #include "VxNewSituation.h"
 #include "VxNewTag.h"
 #include "VxNewUser.h"
@@ -39,6 +40,12 @@ namespace VxSdk {
         /// </summary>
         /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
         virtual VxResult::Value AcknowledgeAllEvents() const = 0;
+        /// <summary>
+        /// Adds a new analytic session.
+        /// </summary>
+        /// <param name="newAnalyticSession">The new analytic session to be added.</param>
+        /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
+        virtual VxResult::Value AddAnalyticSession(VxNewAnalyticSession& newAnalyticSession) const = 0;
         /// <summary>
         /// Adds a new bookmark on the VideoXpert system.
         /// </summary>
@@ -72,6 +79,12 @@ namespace VxSdk {
         /// </param>
         /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
         virtual VxResult::Value AddManualRecording(VxNewManualRecording& newManualRecording, IVxManualRecording*& manualRecordingItem) const = 0;
+        /// <summary>
+        /// Adds a new member system to be aggregated.
+        /// </summary>
+        /// <param name="newMember">The new member system to be aggregated.</param>
+        /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
+        virtual VxResult::Value AddMember(VxNewMember& newMember) const = 0;
         /// <summary>
         /// Adds a new role to the system.
         /// </summary>
@@ -139,6 +152,15 @@ namespace VxSdk {
         /// <returns>The <see cref="VxResult::Value">Result</see> of deleting this instance.</returns>
         virtual VxResult::Value Delete() const = 0;
         /// <summary>
+        /// Gets the access points residing on the system.
+        /// <para>Available filters: kAdvancedQuery, kHasStatus, kId, kModifiedSince, kName, kState, kType.</para>
+        /// </summary>
+        /// <param name="accessPointCollection">
+        /// A <see cref="VxCollection"/> of the access points residing on the system.
+        /// </param>
+        /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
+        virtual VxResult::Value GetAccessPoints(VxCollection<IVxAccessPoint**>& accessPointCollection) const = 0;
+        /// <summary>
         /// Gets the alarm inputs residing on the system.
         /// <para>Available filters: kAdvancedQuery, kId, kModifiedSince, kName, kState.</para>
         /// </summary>
@@ -148,11 +170,32 @@ namespace VxSdk {
         /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
         virtual VxResult::Value GetAlarmInputs(VxCollection<IVxAlarmInput**>& alarmInputCollection) const = 0;
         /// <summary>
+        /// Gets the analytic sessions on this system.
+        /// <para>Available filters: kAdvancedQuery, kDataSourceId, kDeviceId, kId, kModifiedSince.</para>
+        /// </summary>
+        /// <param name="analyticSessionCollection">
+        /// A <see cref="VxCollection"/> of the analytic sessions on this system.
+        /// </param>
+        /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
+        virtual VxResult::Value GetAnalyticSessions(VxCollection<IVxAnalyticSession**>& analyticSessionCollection) const = 0;
+        /// <summary>
+        /// Gets the authentication configuration.
+        /// </summary>
+        /// <param name="authConfig">The authentication configuration.</param>
+        /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
+        virtual VxResult::Value GetAuthenticationConfiguration(IVxConfiguration::Auth*& authConfig) const = 0;
+        /// <summary>
         /// Gets the current bookmark automatic unlock time value.
         /// </summary>
         /// <param name="autoUnlockTime">The bookmark auto-unlock time (in days).</param>
         /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
         virtual VxResult::Value GetBookmarkAutoUnlockTime(int& autoUnlockTime) const = 0;
+        /// <summary>
+        /// Gets the bookmark configuration.
+        /// </summary>
+        /// <param name="bookmarkConfig">The bookmark configuration.</param>
+        /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
+        virtual VxResult::Value GetBookmarkConfiguration(IVxConfiguration::Bookmark*& bookmarkConfig) const = 0;
         /// <summary>
         /// Gets the bookmarks residing on the system.
         /// <para>
@@ -168,7 +211,7 @@ namespace VxSdk {
         /// <summary>
         /// Gets the cluster configuration.
         /// </summary>
-        /// <param name="clusterConfig">The cluster configuration..</param>
+        /// <param name="clusterConfig">The cluster configuration.</param>
         /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
         virtual VxResult::Value GetClusterConfiguration(IVxConfiguration::Cluster*& clusterConfig) const = 0;
         /// <summary>
@@ -270,6 +313,12 @@ namespace VxSdk {
         /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
         virtual VxResult::Value GetHostDevice(IVxDevice*& hostDevice) const = 0;
         /// <summary>
+        /// Gets the LDAP configuration.
+        /// </summary>
+        /// <param name="ldapConfig">The LDAP configuration.</param>
+        /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
+        virtual VxResult::Value GetLdapConfiguration(IVxConfiguration::Ldap*& ldapConfig) const = 0;
+        /// <summary>
         /// Gets the license for the system.
         /// </summary>
         /// <param name="license">The license for the system.</param>
@@ -284,6 +333,15 @@ namespace VxSdk {
         /// </param>
         /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
         virtual VxResult::Value GetManualRecordings(VxCollection<IVxManualRecording**>& manualRecordingCollection) const = 0;
+        /// <summary>
+        /// Gets the member systems that this system is aggregating.
+        /// <para>Available filters: kAdvancedQuery, kHost, kId, kModifiedSince, kName, kState.</para>
+        /// </summary>
+        /// <param name="memberCollection">
+        /// A <see cref="VxCollection"/> of the aggregated member systems.
+        /// </param>
+        /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
+        virtual VxResult::Value GetMembers(VxCollection<IVxMember**>& memberCollection) const = 0;
         /// <summary>
         /// Gets the monitors residing on the system.
         /// <para>Available filters: kAdvancedQuery, kId, kModifiedSince, kName, kNumber.</para>
@@ -333,6 +391,12 @@ namespace VxSdk {
         /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
         virtual VxResult::Value GetSchedules(VxCollection<IVxSchedule**>& scheduleCollection) const = 0;
         /// <summary>
+        /// Gets the general server configuration.
+        /// </summary>
+        /// <param name="serverConfig">The server configuration.</param>
+        /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
+        virtual VxResult::Value GetServerConfiguration(IVxConfiguration::Server*& serverConfig) const = 0;
+        /// <summary>
         /// Gets the situations residing on the system.
         /// <para>
         /// Available filters: kAdvancedQuery, kAudibleNotify, kHasProperty, kLog, kModifiedSince, kName, kNotify,
@@ -344,6 +408,18 @@ namespace VxSdk {
         /// </param>
         /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
         virtual VxResult::Value GetSituations(VxCollection<IVxSituation**>& situationCollection) const = 0;
+        /// <summary>
+        /// Gets the SMTP configuration.
+        /// </summary>
+        /// <param name="smtpConfig">The SMTP configuration.</param>
+        /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
+        virtual VxResult::Value GetSmtpConfiguration(IVxConfiguration::Smtp*& smtpConfig) const = 0;
+        /// <summary>
+        /// Gets the SNMP agent configuration.
+        /// </summary>
+        /// <param name="snmpConfig">The SNMP agent configuration.</param>
+        /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
+        virtual VxResult::Value GetSnmpConfiguration(IVxConfiguration::Snmp*& snmpConfig) const = 0;
         /// <summary>
         /// Gets the tags residing on the system.
         /// <para>
@@ -363,6 +439,12 @@ namespace VxSdk {
         /// </param>
         /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
         virtual VxResult::Value GetTimeTables(VxCollection<IVxTimeTable**>& timeTableCollection) const = 0;
+        /// <summary>
+        /// Gets the Twilio SMS configuration.
+        /// </summary>
+        /// <param name="twilioConfig">The Twilio SMS configuration.</param>
+        /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
+        virtual VxResult::Value GetTwilioConfiguration(IVxConfiguration::Twilio*& twilioConfig) const = 0;
         /// <summary>
         /// Gets the users residing on the system.
         /// <para>Available filters: kAdvancedQuery, kFirstName, kLastName, kModifiedSince, kName.</para>
@@ -425,6 +507,16 @@ namespace VxSdk {
         /// </summary>
         /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
         virtual VxResult::Value StopNotifications() const = 0;
+        /// <summary>
+        /// Validates member administrator credentials.
+        /// </summary>
+        /// <param name="isValid"><c>true</c> if the administrator credentials are determined to be valid, otherwise <c>false</c>.</param>
+        /// <param name="host">The host address.</param>
+        /// <param name="port">The host port.</param>
+        /// <param name="username">The username for access to the member.</param>
+        /// <param name="password">The password for access to the member.</param>
+        /// <returns>The <see cref="VxResult::Value">Result</see> of validating the credentials.</returns>
+        virtual VxResult::Value ValidateMember(bool& isValid, const char* host, int port, const char* username, const char* password) = 0;
 
     public:
         /// <summary>

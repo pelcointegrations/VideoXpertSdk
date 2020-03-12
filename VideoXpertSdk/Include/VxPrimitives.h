@@ -10,6 +10,46 @@ namespace VxSdk {
 	#define MAX_SITUATION_NAME_LENGTH	128
 
     /// <summary>
+    /// Values that represent a particular type of access point.
+    /// </summary>
+    struct VxAccessPointType {
+        enum Value {
+            /// <summary>An error or unknown value was returned.</summary>
+            kUnknown,
+            /// <summary>A door.</summary>
+            kDoor,
+            /// <summary>A door with a reader.</summary>
+            kDoorWithReader,
+            /// <summary>A gate.</summary>
+            kGate
+        };
+    };
+
+    /// <summary>
+    /// Values that represent possible statuses for an access point.
+    /// </summary>
+    struct VxAccessStatus {
+        enum Value {
+            /// <summary>An error or unknown value was returned.</summary>
+            kUnknown,
+            /// <summary>The access point is closed.</summary>
+            kClosed,
+            /// <summary>The access point has faulted.</summary>
+            kFaulted,
+            /// <summary>The access point has been forced.</summary>
+            kForced,
+            /// <summary>The access point is locked.</summary>
+            kLocked,
+            /// <summary>The access point is open.</summary>
+            kOpened,
+            /// <summary>The access point has been propped.</summary>
+            kPropped,
+            /// <summary>The access point is unlocked.</summary>
+            kUnlocked
+        };
+    };
+
+    /// <summary>
     /// Values that represent the current acknowledgement state of an event.
     /// </summary>
     struct VxAckState {
@@ -30,6 +70,20 @@ namespace VxSdk {
     };
 
     /// <summary>
+    /// Values that represent the particular type of an alarm input.
+    /// </summary>
+    struct VxAlarmInputType {
+        enum Value {
+            /// <summary>An error or unknown value was returned.</summary>
+            kUnknown,
+            /// <summary>The alarm input is a generic alarm.</summary>
+            kAlarm,
+            /// <summary>The alarm input is a fire alarm.</summary>
+            kFire
+        };
+    };
+
+    /// <summary>
     /// Values that represent the state of an alarm input.
     /// </summary>
     struct VxAlarmState {
@@ -40,6 +94,124 @@ namespace VxSdk {
             kActive,
             /// <summary>The alarm input is inactive.</summary>
             kInactive
+        };
+    };
+	
+    /// <summary>
+    /// Values that represent the type of analytic behavior being performed.
+    /// </summary>
+    struct VxAnalyticBehaviorType {
+        enum Value {
+            /// <summary>An error or unknown value was returned.</summary>
+            kUnknown,
+            /// <summary>Object counting analytic.</summary>
+            kObjectCounter,
+            /// <summary>Object detected in zone analytic.</summary>
+            kObjectInZone
+        };
+    };
+	
+    /// <summary>
+    /// Values that represent the type of object this analytic pertains to.
+    /// </summary>
+    struct VxAnalyticObjectType {
+        enum Value {
+            /// <summary>An error or unknown value was returned.</summary>
+            kUnknown,
+            /// <summary>A person object type.</summary>
+            kPerson,
+            /// <summary>A vehicle object type.</summary>
+            kVehicle
+        };
+    };
+
+    /// <summary>
+    /// Values that represent SNMP v3 authentication protocols.
+    /// </summary>
+    struct VxAuthProtocol {
+        enum Value {
+            /// <summary>An error or unknown value was returned.</summary>
+            kUnknown,
+            /// <summary>MD5 authentication protocol.</summary>
+            kMD5,
+            /// <summary>No authentication protocol.</summary>
+            kNone,
+            /// <summary>SHA authentication protocol.</summary>
+            kSHA
+        };
+    };
+
+    /// <summary>
+    /// Values that represent the status of a backup.
+    /// </summary>
+    struct VxBackupStatus {
+        enum Value {
+            /// <summary>An error or unknown value was returned.</summary>
+            kUnknown,
+            /// <summary>Backup has failed.</summary>
+            kFailed,
+            /// <summary>Backup was halted.</summary>
+            kHalted,
+            /// <summary>Backup is in progress.</summary>
+            kInProgress,
+            /// <summary>Backup was successful.</summary>
+            kSuccessful
+        };
+    };
+
+    /// <summary>
+    /// Values that represent the reason for the current status of a backup.
+    /// </summary>
+    struct VxBackupStatusReason {
+        enum Value {
+            /// <summary>An error or unknown value was returned.</summary>
+            kUnknown,
+            /// <summary>Backup storage is full.</summary>
+            kBackupStorageFull,
+            /// <summary>Backup storage unauthenticated.</summary>
+            kBackupStorageUnauthenticated,
+            /// <summary>Backup storage is unavailable.</summary>
+            kBackupStorageUnavailable,
+            /// <summary>Shadow copy creation failed.</summary>
+            kShadowCopyCreationFailure,
+            /// <summary>Shadow copy mount failed.</summary>
+            kShadowCopyMountFailure
+        };
+    };
+
+    /// <summary>
+    /// Values that represent bookmark retention policies.
+    /// </summary>
+    struct VxBookmarkRetentionPolicy {
+        enum Value {
+            /// <summary>An error or unknown value was returned.</summary>
+            kUnknown,
+            /// <summary>Unlocked bookmarks are automatically deleted after the retention limit.</summary>
+            kDeleteAfterLimit,
+            /// <summary>
+            /// Unlocked bookmarks are automatically deleted after their corresponding recordings are deleted.
+            /// </summary>
+            kDeleteAfterRecording,
+            /// <summary>Unlocked bookmarks are not automatically deleted.</summary>
+            kNeverDelete
+        };
+    };
+
+    /// <summary>
+    /// Values that represent the input mode for a monitor cell.
+    /// </summary>
+    struct VxCellInputMode {
+        enum Value {
+            /// <summary>An error or unknown value was returned.</summary>
+            kUnknown,
+            /// <summary>Digital PTZ mode.</summary>
+            kDigitalPtz,
+            /// <summary>Navigation mode.</summary>
+            kNavigation,
+            /// <summary>Playback mode.</summary>
+            kPlayback,
+            /// <summary>PTZ mode.</summary>
+            kPtz
         };
     };
 
@@ -282,6 +454,43 @@ namespace VxSdk {
     };
 
     /// <summary>
+    /// Values that represent the health status of a database.
+    /// </summary>
+    struct VxDatabaseStatus {
+        enum Value {
+            /// <summary>An error or unknown value was returned.</summary>
+            kUnknown,
+            /// <summary>The database has failed.</summary>
+            kFailed,
+            /// <summary>The database is OK.</summary>
+            kOk,
+            /// <summary>The database is rebuilding.</summary>
+            kRebuilding,
+            /// <summary>The database is recovering.</summary>
+            kRecovering
+        };
+    };
+
+    
+    /// <summary>
+    /// Values that represent a capability supported by a data source.
+    /// </summary>
+    struct VxDataSourceCapability {
+        enum Value {
+            /// <summary>An error or unknown value was returned.</summary>
+            kUnknown,
+            /// <summary>Focus capability.</summary>
+            kFocus,
+            /// <summary>Iris capability.</summary>
+            kIris,
+            /// <summary>Pan/tilt capability.</summary>
+            kPanTilt,
+            /// <summary>Zoom capability.</summary>
+            kZoom
+        };
+    };
+
+    /// <summary>
     /// Values that represent the particular type of a data source.
     /// </summary>
     struct VxDataSourceType {
@@ -369,7 +578,9 @@ namespace VxSdk {
             /// <summary>NSM5200 manager.</summary>
             kNsmManager,
             /// <summary>NSM5200 member.</summary>
-            kNsmMember
+            kNsmMember,
+            /// <summary>Expired credentials.</summary>
+            kAuthExpired
         };
     };
 
@@ -405,7 +616,11 @@ namespace VxSdk {
             /// <summary>A UI device.</summary>
             kUi,
             /// <summary>An error or unknown value was returned.</summary>
-            kUnknown
+            kUnknown,
+            /// <summary>An analytic server.</summary>
+            kAnalyticServer,
+            /// <summary>A VideoXpert database.</summary>
+            kDatabase
         };
     };
 
@@ -472,6 +687,56 @@ namespace VxSdk {
     };
 
     /// <summary>
+    /// Values that represent status of an export stream.
+    /// </summary>
+    struct VxExportStreamStatus {
+        enum Value {
+            /// <summary>An error or unknown value was returned.</summary>
+            kUnknown,
+            /// <summary>The export stream preparation has failed.</summary>
+            kFailed,
+            /// <summary>The export stream needs preparation.</summary>
+            kNeedsPreparation,
+            /// <summary>The export stream is being prepared.</summary>
+            kPreparing,
+            /// <summary>The export stream is ready.</summary>
+            kReady
+        };
+    };
+
+    /// <summary>
+    /// Values that represent the reason for the current status of an export stream.
+    /// </summary>
+    struct VxExportStreamStatusReason {
+        enum Value {
+            /// <summary>An error or unknown value was returned.</summary>
+            kUnknown,
+            /// <summary>The export data is unretrievable.</summary>
+            kExportDataUnretrievable,
+            /// <summary>The temporary export storage is full.</summary>
+            kExportTempStorageFull
+        };
+    };
+
+    /// <summary>
+    /// Values that represent the status of a file recovery.
+    /// </summary>
+    struct VxFileRecoveryStatus {
+        enum Value {
+            /// <summary>An error or unknown value was returned.</summary>
+            kUnknown,
+            /// <summary>The file recovery failed.</summary>
+            kFailed,
+            /// <summary>The file recovery process is idle.</summary>
+            kIdle,
+            /// <summary>The file recovery is in progress.</summary>
+            kInProgress,
+            /// <summary>The file recovery succeeded.</summary>
+            kSuccess
+        };
+    };
+
+    /// <summary>
     /// Values that represent focus directions.
     /// </summary>
     struct VxFocusDirection {
@@ -482,6 +747,24 @@ namespace VxSdk {
             kFar,
             /// <summary>Focus nearer.</summary>
             kNear
+        };
+    };
+  
+    /// <summary>
+    /// Values that represent the status of gap filling.
+    /// </summary>
+    struct VxGapFillerStatus {
+        enum Value {
+            /// <summary>An error or unknown value was returned.</summary>
+            kUnknown,
+            /// <summary>Gap filler is disabled.</summary>
+            kDisabled,
+            /// <summary>Failed to fill the gap.</summary>
+            kFailed,
+            /// <summary>Gap filling is pending.</summary>
+            kPending,
+            /// <summary>Gap filler status is unavailable.</summary>
+            kUnavailable
         };
     };
 
@@ -512,6 +795,26 @@ namespace VxSdk {
     };
 
     /// <summary>
+    /// Values that represent the health status of a drive.
+    /// </summary>
+    struct VxHddStatus {
+        enum Value {
+            /// <summary>An error or unknown value was returned.</summary>
+            kUnknown,
+            /// <summary>The disk has failed.</summary>
+            kFailed,
+            /// <summary>The disk missing.</summary>
+            kMissing,
+            /// <summary>The disk is OK.</summary>
+            kOk,
+            /// <summary>The disk is rebuilding.</summary>
+            kRebuilding,
+            /// <summary>The disk has not been configured.</summary>
+            kUnconfigured
+        };
+    };
+ 
+    /// <summary>
     /// Values that represent event types sent from the VxSDK.
     /// </summary>
     struct VxInternalEventType {
@@ -530,6 +833,48 @@ namespace VxSdk {
     };
 
     /// <summary>
+    /// Values that represent the area of an intersection.
+    /// </summary>
+    struct VxIntersectionArea {
+        enum Value {
+            /// <summary>An error or unknown value was returned.</summary>
+            kUnknown,
+            /// <summary>East-bound left area.</summary>
+            kEastboundLeft,
+            /// <summary>East-bound pedestrian area.</summary>
+            kEastboundPedestrian,
+            /// <summary>East-bound right area.</summary>
+            kEastboundRight,
+            /// <summary>East-bound through area.</summary>
+            kEastboundThrough,
+            /// <summary>North-bound left area.</summary>
+            kNorthboundLeft,
+            /// <summary>North-bound pedestrian area.</summary>
+            kNorthboundPedestrian,
+            /// <summary>North-bound right area.</summary>
+            kNorthboundRight,
+            /// <summary>North-bound through area.</summary>
+            kNorthboundThrough,
+            /// <summary>South-bound left area.</summary>
+            kSouthboundLeft,
+            /// <summary>South-bound pedestrian area.</summary>
+            kSouthboundPedestrian,
+            /// <summary>South-bound right area.</summary>
+            kSouthboundRight,
+            /// <summary>South-bound through area.</summary>
+            kSouthboundThrough,
+            /// <summary>West-bound left area.</summary>
+            kWestboundLeft,
+            /// <summary>West-bound pedestrian area.</summary>
+            kWestboundPedestrian,
+            /// <summary>West-bound right area.</summary>
+            kWestboundRight,
+            /// <summary>West-bound through area.</summary>
+            kWestboundThrough
+        };
+    };
+
+    /// <summary>
     /// Values that represent iris directions.
     /// </summary>
     struct VxIrisDirection {
@@ -540,6 +885,22 @@ namespace VxSdk {
             kClose,
             /// <summary>Open the iris.</summary>
             kOpen
+        };
+    };
+
+    /// <summary>
+    /// Values that represent the type of load being referenced.
+    /// </summary>
+    struct VxLoadType {
+        enum Value {
+            /// <summary>An error or unknown value was returned.</summary>
+            kUnknown,
+            /// <summary>CPU load.</summary>
+            kCpu,
+            /// <summary>GPU load.</summary>
+            kGpu,
+            /// <summary>Memory load.</summary>
+            kMemory
         };
     };
 
@@ -567,6 +928,47 @@ namespace VxSdk {
     };
 
     /// <summary>
+    /// Values that represent operational states for a member system.
+    /// </summary>
+    struct VxMemberState {
+        enum Value
+        {
+            /// <summary>Unable to determine status or an error was returned.</summary>
+            kUnknown,
+            /// <summary>Online; available.</summary>
+            kOnline,
+            /// <summary>Being added; unavailable.</summary>
+            kPending,
+            /// <summary>Being removed; unavailable.</summary>
+            kRemoving,
+            /// <summary>Invalid credentials; unavailable.</summary>
+            kUnauthorized,
+            /// <summary>Offline; unavailable.</summary>
+            kUnavailable
+        };
+    };
+
+    /// <summary>
+    /// Values that represent VxMediaGateway communication configurations. The first part indicates the default
+    /// communication used between a data source and the VxMediaGateway; the second part indicates the default
+    /// communication between the VxMediaGateway and a client.
+    /// </summary>
+    struct VxMgTranscast {
+        enum Value {
+            /// <summary>An error or unknown value was returned.</summary>
+            kUnknown,
+            /// <summary>Multicast between the data source and VxMG; multicast between VxMG and client.</summary>
+            kMulticast_Multicast,
+            /// <summary>Multicast between the data source and VxMG; unicast between VxMG and client.</summary>
+            kMulticast_Unicast,
+            /// <summary>Unicast between the data source and VxMG; multicast between VxMG and client.</summary>
+            kUnicast_Multicast,
+            /// <summary>Unicast between the data source and VxMG; unicast between VxMG and client.</summary>
+            kUnicast_Unicast
+        };
+    };
+
+    /// <summary>
     /// Values that represent motion detection modes.
     /// </summary>
     struct VxMotionMode {
@@ -579,6 +981,22 @@ namespace VxSdk {
             kDisabled,
             /// <summary>Recorder based motion detection.</summary>
             kRecorder
+        };
+    };
+
+    /// <summary>
+    /// Values that represent a particular type of node.
+    /// </summary>
+    struct VxNodeType {
+        enum Value {
+            /// <summary>An error or unknown value was returned.</summary>
+            kUnknown,
+            /// <summary>Core node.</summary>
+            kCore,
+            /// <summary>Database node.</summary>
+            kDatabase,
+            /// <summary>Support node.</summary>
+            kSupport
         };
     };
 
@@ -709,6 +1127,22 @@ namespace VxSdk {
             kWork,
             /// <summary>Work fax number.</summary>
             kWorkFax
+        };
+    };
+
+    /// <summary>
+    /// Values that represent SNMP v3 privacy protocols.
+    /// </summary>
+    struct VxPrivacyProtocol {
+        enum Value {
+            /// <summary>An error or unknown value was returned.</summary>
+            kUnknown,
+            /// <summary>AES encryption.</summary>
+            kAES,
+            /// <summary>DES encryption.</summary>
+            kDES,
+            /// <summary>No encryption.</summary>
+            kNone
         };
     };
 
@@ -1003,6 +1437,40 @@ namespace VxSdk {
     };
 
     /// <summary>
+    /// Values that represent rotation types (in 90 degree increments).
+    /// </summary>
+    struct VxRotationType {
+        enum Value {
+            /// <summary>An error or unknown value was returned.</summary>
+            kUnknown,
+            /// <summary>0 degrees.</summary>
+            k0,
+            /// <summary>90 degrees.</summary>
+            k90,
+            /// <summary>180 degrees.</summary>
+            k180,
+            /// <summary>270 degrees.</summary>
+            k270
+        };
+    };
+
+    /// <summary>
+    /// Values that represent network streaming capabilities.
+    /// </summary>
+    struct VxRtspCapability {
+        enum Value {
+            /// <summary>An error or unknown value was returned.</summary>
+            kUnknown,
+            /// <summary>TCP streaming capability.</summary>
+            kTcp,
+            /// <summary>TCP and UDP streaming capabilities.</summary>
+            kTcpUdp,
+            /// <summary>TCP, UDP and multicast streaming capabilities.</summary>
+            kTcpUdpMulticast
+        };
+    };
+
+    /// <summary>
     /// Values that represent schedule recording actions.
     /// </summary>
     struct VxScheduleAction {
@@ -1052,6 +1520,22 @@ namespace VxSdk {
     };
 
     /// <summary>
+    /// Values that represent which version of SNMP is enabled.
+    /// </summary>
+    struct VxSnmpVersion {
+        enum Value {
+            /// <summary>An error or unknown value was returned.</summary>
+            kUnknown,
+            /// <summary>SNMP is disabled.</summary>
+            kNone,
+            /// <summary>SNMPv2c protocol.</summary>
+            kSNMP2c,
+            /// <summary>SNMPv3 protocol.</summary>
+            kSNMP3
+        };
+    };
+
+    /// <summary>
     /// Values that represent media stream encoding formats.
     /// </summary>
     struct VxStreamFormat {
@@ -1085,6 +1569,62 @@ namespace VxSdk {
             /// <summary>The RTSP/RTP protocol.</summary>
             kRtspRtp
         };
+    }; 
+
+    /// <summary>
+    /// Values that represent a stream source.
+    /// </summary>
+    struct VxStreamSource {
+        enum Value {
+            /// <summary>An error or unknown value was returned.</summary>
+            kUnknown,
+            /// <summary>The 1st stream.</summary>
+            kPrimary,
+            /// <summary>The 2nd stream.</summary>
+            kSecondary,
+            /// <summary>The 3rd stream.</summary>
+            kTertiary,
+            /// <summary>The 4th stream.</summary>
+            kQuaternary,
+            /// <summary>The 5th stream.</summary>
+            kQuinary,
+            /// <summary>The 6th stream.</summary>
+            kSenary,
+            /// <summary>The 7th stream.</summary>
+            kSeptenary,
+            /// <summary>The 8th stream.</summary>
+            kOctonary,
+            /// <summary>The 9th stream.</summary>
+            kNonary,
+            /// <summary>The 10th stream.</summary>
+            kDenary
+        };
+    };
+
+    /// <summary>
+    /// Values that represent software upgrade plan licensing event types.
+    /// </summary>
+    struct VxSupEventType {
+        enum Value {
+            /// <summary>An error or unknown value was returned.</summary>
+            kUnknown,
+            /// <summary>A license commissioned event.</summary>
+            kCommissioned,
+            /// <summary>A license decommissioned event.</summary>
+            kDecommissioned,
+            /// <summary>A 1-year license expired event.</summary>
+            kExpiredSup1,
+            /// <summary>A 3-year license expired event.</summary>
+            kExpiredSup3,
+            /// <summary>A license extended event.</summary>
+            kExtendedSup,
+            /// <summary>A 1-year license installed event.</summary>
+            kInstalledSup1,
+            /// <summary>A 3-year license installed event.</summary>
+            kInstalledSup3,
+            /// <summary>A license tampered event.</summary>
+            kTampered,
+        };
     };
 
     /// <summary>
@@ -1100,6 +1640,20 @@ namespace VxSdk {
             kProfessional,
             /// <summary>Unlicensed system.</summary>
             kUnlicensed
+        };
+    };
+
+    /// <summary>
+    /// Values that represent network communication transmission types.
+    /// </summary>
+    struct VxTransmissionType {
+        enum Value {
+            /// <summary>An error or unknown value was returned.</summary>
+            kUnknown,
+            /// <summary>Multicast transmission.</summary>
+            kMulticast,
+            /// <summary>Unicast transmission.</summary>
+            kUnicast
         };
     };
 

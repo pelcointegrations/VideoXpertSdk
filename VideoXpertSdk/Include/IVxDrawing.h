@@ -45,6 +45,12 @@ namespace VxSdk {
         /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
         virtual VxResult::Value GetImage(char* endpoint, int& size) const = 0;
         /// <summary>
+        /// Gets the limits related to this resource.
+        /// </summary>
+        /// <param name="limits">The limits related to this resource.</param>
+        /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
+        virtual VxResult::Value GetLimits(VxLimits*& limits) const = 0;
+        /// <summary>
         /// Gets the resource lock, if any.
         /// </summary>
         /// <param name="resourceLock">The current resource lock if present.</param>
@@ -63,6 +69,18 @@ namespace VxSdk {
         /// <returns>The <see cref="VxResult::Value">Result</see> of refreshing this objects member values.</returns>
         virtual VxResult::Value Refresh() = 0;
         /// <summary>
+        /// Sets the backgroundColor property.
+        /// </summary>
+        /// <param name="backgroundColor">The new background color ARGB value.</param>
+        /// <returns>The <see cref="VxResult::Value">Result</see> of setting the property.</returns>
+        virtual VxResult::Value SetBackgroundColor(unsigned int backgroundColor) = 0;
+        /// <summary>
+        /// Sets the cameraNumberColor property.
+        /// </summary>
+        /// <param name="cameraNumberColor">The new camera number color ARGB value.</param>
+        /// <returns>The <see cref="VxResult::Value">Result</see> of setting the property.</returns>
+        virtual VxResult::Value SetCameraNumberColor(unsigned int cameraNumberColor) = 0;
+        /// <summary>
         /// Sets the binary drawing image data. The maximum allowable size of the image is 128 MB.
         /// </summary>
         /// <param name="imagePath">The local path to the image file.</param>
@@ -74,29 +92,57 @@ namespace VxSdk {
         /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
         virtual VxResult::Value SetLock() const = 0;
         /// <summary>
+        /// Sets the markerSize property.
+        /// </summary>
+        /// <param name="markerSize">The new marker size value.</param>
+        /// <returns>The <see cref="VxResult::Value">Result</see> of setting the property.</returns>
+        virtual VxResult::Value SetMarkerSize(int markerSize) = 0;
+        /// <summary>
         /// Sets the name property.
         /// </summary>
         /// <param name="name">The new name value.</param>
         /// <returns>The <see cref="VxResult::Value">Result</see> of setting the property.</returns>
         virtual VxResult::Value SetName(char name[64]) = 0;
+        /// <summary>
+        /// Sets the showCameraNumbers property.
+        /// </summary>
+        /// <param name="showCameraNumbers"><c>true</c> to show camera number text overlay, otherwise <c>false</c>.</param>
+        /// <returns>The <see cref="VxResult::Value">Result</see> of setting the property.</returns>
+        virtual VxResult::Value SetShowCameraNumbers(bool showCameraNumbers) = 0;
 
     public:
         /// <summary>
-        /// The time since the drawing was last modified
+        /// Indicates whether the camera number text overlays should be displayed.
         /// </summary>
-        char lastModified[64];
+        bool showCameraNumbers;
         /// <summary>
         /// The unique identifier of the drawing.
         /// </summary>
         char id[64];
         /// <summary>
-        /// The friendly name of the drawing.
+        /// The time since the drawing was last modified
         /// </summary>
-        char name[64];
+        char lastModified[64];
         /// <summary>
         /// The mime type of the drawing
         /// </summary>
         char mimeType[64];
+        /// <summary>
+        /// The friendly name of the drawing.
+        /// </summary>
+        char name[64];
+        /// <summary>
+        /// An integer that defines an ARGB color for the map background.
+        /// </summary>
+        unsigned int backgroundColor;
+        /// <summary>
+        /// An integer that defines an ARGB color for the camera number text.
+        /// </summary>
+        unsigned int cameraNumberColor;
+        /// <summary>
+        /// The size, in pixels, of marker icons.
+        /// </summary>
+        int markerSize;
         /// <summary>
         /// The provider for the drawing.
         /// </summary>
@@ -107,10 +153,14 @@ namespace VxSdk {
         /// Clears this instance.
         /// </summary>
         void Clear() {
-            VxZeroArray(this->lastModified);
+            this->showCameraNumbers = false;
             VxZeroArray(this->id);
-            VxZeroArray(this->name);
+            VxZeroArray(this->lastModified);
             VxZeroArray(this->mimeType);
+            VxZeroArray(this->name);
+            this->backgroundColor = 0;
+            this->cameraNumberColor = 0;
+            this->markerSize = 0;
             this->provider = VxDrawingProvider::kUnknown;
         }
     };

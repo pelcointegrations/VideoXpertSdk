@@ -35,6 +35,12 @@ namespace VxSdk {
         /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
         virtual VxResult::Value GetHostDevice(IVxDevice*& hostDevice) const = 0;
         /// <summary>
+        /// Gets the limits related to this resource.
+        /// </summary>
+        /// <param name="limits">The limits related to this resource.</param>
+        /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
+        virtual VxResult::Value GetLimits(VxLimits*& limits) const = 0;
+        /// <summary>
         /// Gets the cells currently active on this monitor.
         /// </summary>
         /// <param name="cellCollection">A <see cref="VxCollection"/> of the active monitor cells.</param>
@@ -57,6 +63,12 @@ namespace VxSdk {
         /// <returns>The <see cref="VxResult::Value">Result</see> of setting the property.</returns>
         virtual VxResult::Value SetLayout(VxCellLayout::Value layout) = 0;
         /// <summary>
+        /// Sets the maximizedCell property.
+        /// </summary>
+        /// <param name="cellIndex">The index of the cell to maximize; -1 to clear the current maximized cell.</param>
+        /// <returns>The <see cref="VxResult::Value">Result</see> of setting the property.</returns>
+        virtual VxResult::Value SetMaximizedCell(int cellIndex) = 0;
+        /// <summary>
         /// Sets the name property.
         /// </summary>
         /// <param name="name">The new name value.</param>
@@ -68,6 +80,20 @@ namespace VxSdk {
         /// <param name="number">The new number value.</param>
         /// <returns>The <see cref="VxResult::Value">Result</see> of setting the property.</returns>
         virtual VxResult::Value SetNumber(int number) = 0;
+        /// <summary>
+        /// Sets the play speed of the display data. Negative values indicate reverse speeds while positive values
+        /// indicate forward speeds (1 is normal speed). A value of 0 will pause the data playback.
+        /// </summary>
+        /// <param name="syncSpeed">The sync playback speed.</param>
+        /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
+        virtual VxResult::Value SetSyncSpeed(float syncSpeed) = 0;
+        /// <summary>
+        /// Sets the time to seek to for all synced cells on the monitor. A value of <c>nullptr</c> will set the
+        /// streams to live.
+        /// </summary>
+        /// <param name="syncTime">The time to seek to, <c>nullptr</c> for live.</param>
+        /// <returns>The <see cref="VxResult::Value">Result</see> of setting the property.</returns>
+        virtual VxResult::Value SetSyncTime(char syncTime[64]) = 0;
 
     public:
         /// <summary>
@@ -79,9 +105,25 @@ namespace VxSdk {
         /// </summary>
         char name[64];
         /// <summary>
+        /// The time at which the data should initially seek to (does not track time as the data plays).
+        /// </summary>
+        char syncTime[64];
+        /// <summary>
+        /// The wall clock time at which the data playback should begin.
+        /// </summary>
+        char syncTimeAnchor[64];
+        /// <summary>
+        /// The index of the full screen monitor cell (-1 if no cells are maximized).
+        /// </summary>
+        int maximizedCell;
+        /// <summary>
         /// The number used to designate the monitor.
         /// </summary>
         int number;
+        /// <summary>
+        /// The play speed of the display data.
+        /// </summary>
+        float syncSpeed;
         /// <summary>
         /// The cell grid layout.
         /// </summary>
@@ -94,7 +136,11 @@ namespace VxSdk {
         void Clear() {
             VxZeroArray(this->id);
             VxZeroArray(this->name);
+            VxZeroArray(this->syncTime);
+            VxZeroArray(this->syncTimeAnchor);
+            this->maximizedCell = 0;
             this->number = 0;
+            this->syncSpeed = 0;
             this->layout = VxCellLayout::Value::k1x1;
         }
     };

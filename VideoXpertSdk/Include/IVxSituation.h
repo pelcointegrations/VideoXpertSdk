@@ -27,10 +27,28 @@ namespace VxSdk {
         /// <returns>The <see cref="VxResult::Value">Result</see> of deleting this instance.</returns>
         virtual VxResult::Value Delete() const = 0;
         /// <summary>
+        /// Deletes the custom audio file.
+        /// </summary>
+        /// <returns>The <see cref="VxResult::Value">Result</see> of deleting the custom audio file.</returns>
+        virtual VxResult::Value DeleteAudioFile() = 0;
+        /// <summary>
         /// Deletes this situation from the VideoXpert system.
         /// </summary>
         /// <returns>The <see cref="VxResult::Value">Result</see> of deleting the situation.</returns>
         virtual VxResult::Value DeleteSituation() const = 0;
+        /// <summary>
+        /// Gets the custom audio file, if any.
+        /// </summary>
+        /// <param name="endpoint">The audio file endpoint.</param>
+        /// <param name="size">The size of <paramref name="endpoint"/>.</param>
+        /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
+        virtual VxResult::Value GetAudioFile(char* endpoint, int& size) const = 0;
+        /// <summary>
+        /// Gets the limits related to this resource.
+        /// </summary>
+        /// <param name="limits">The limits related to this resource.</param>
+        /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
+        virtual VxResult::Value GetLimits(VxLimits*& limits) const = 0;
         /// <summary>
         /// Gets the data sources associated with this situation.
         /// <para>Available filters: kAdvancedQuery, kModifiedSince.</para>
@@ -95,6 +113,13 @@ namespace VxSdk {
         /// <param name="shouldAudiblyNotify"><c>true</c> to audibly notify, otherwise <c>false</c>.</param>
         /// <returns>The <see cref="VxResult::Value">Result</see> of setting the property.</returns>
         virtual VxResult::Value SetAudiblyNotify(bool shouldAudiblyNotify) = 0;
+        /// <summary>
+        /// Sets the custom audio file used by clients for audible notifications. The maximum allowable size
+        /// of the file is 5 MB.
+        /// </summary>
+        /// <param name="audioFilePath">The local path to the audio file.</param>
+        /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
+        virtual VxResult::Value SetAudioFile(char* audioFilePath) = 0;
         /// <summary>
         /// Sets the auto acknowledge time property.
         /// </summary>
@@ -232,9 +257,18 @@ namespace VxSdk {
         /// </summary>
         int snoozeIntervalSize;
         /// <summary>
+        /// The size of <see cref="sourceDeviceTypes"/>.
+        /// </summary>
+        int sourceDeviceTypesSize;
+        /// <summary>
         /// The default snooze intervals, in seconds, for a generated event.
         /// </summary>
         int* snoozeIntervals;
+        /// <summary>
+        /// A list of device types that may be the source of events for this situation.
+        /// <para>NOTE: This field is informational for aiding clients, especially in rule creation.</para>
+        /// </summary>
+        VxDeviceType::Value* sourceDeviceTypes;
 
     protected:
         /// <summary>
@@ -259,7 +293,9 @@ namespace VxSdk {
             this->notificationIdSize = 0;
             this->severity = 0;
             this->snoozeIntervalSize = 0;
+            this->sourceDeviceTypesSize = 0;
             this->snoozeIntervals = nullptr;
+            this->sourceDeviceTypes = nullptr;
         }
     };
 }

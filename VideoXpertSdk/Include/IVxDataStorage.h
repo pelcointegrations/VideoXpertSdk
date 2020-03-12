@@ -8,6 +8,7 @@
 #include "IVxDevice.h"
 #include "IVxDeviceAssignment.h"
 #include "IVxDriver.h"
+#include "VxRetention.h"
 
 namespace VxSdk {
     struct VxNewClip;
@@ -61,6 +62,19 @@ namespace VxSdk {
         /// <param name="hostDevice">The host device of this data storage.</param>
         /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
         virtual VxResult::Value GetHostDevice(IVxDevice*& hostDevice) const = 0;
+        /// <summary>
+        /// Gets the limits related to this resource.
+        /// </summary>
+        /// <param name="limits">The limits related to this resource.</param>
+        /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
+        virtual VxResult::Value GetLimits(VxLimits*& limits) const = 0;
+        /// <summary>
+        /// Gets the resource retention information for this data storage.
+        /// <para>Available filters: kId, kResourceId.</para>
+        /// </summary>
+        /// <param name="retentionCollection">A <see cref="VxCollection"/> of retention information.</param>
+        /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
+        virtual VxResult::Value GetRetentions(VxCollection<VxRetention**>& retentionCollection) const = 0;
         /// <summary>
         /// Gets the storage configuration.
         /// </summary>

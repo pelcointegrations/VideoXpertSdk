@@ -36,6 +36,12 @@ namespace VxSdk {
         /// <returns>The <see cref="VxResult::Value">Result</see> of enabling this rule.</returns>
         virtual VxResult::Value Enable() = 0;
         /// <summary>
+        /// Gets the limits related to this resource.
+        /// </summary>
+        /// <param name="limits">The limits related to this resource.</param>
+        /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
+        virtual VxResult::Value GetLimits(VxLimits*& limits) const = 0;
+        /// <summary>
         /// Gets the script to run when this rule is triggered.
         /// </summary>
         /// <param name="script">The script data.</param>

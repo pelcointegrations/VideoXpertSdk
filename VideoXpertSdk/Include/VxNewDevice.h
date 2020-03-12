@@ -25,6 +25,7 @@ namespace VxSdk {
         VxNewDevice(const VxNewDevice& ref) {
             this->shouldAutoCommission = ref.shouldAutoCommission;
             Utilities::StrCopySafe(this->driverType, ref.driverType);
+            Utilities::StrCopySafe(this->host, ref.host);
             Utilities::StrCopySafe(this->id, ref.id);
             Utilities::StrCopySafe(this->ip, ref.ip);
             Utilities::StrCopySafe(this->model, ref.model);
@@ -36,6 +37,16 @@ namespace VxSdk {
             Utilities::StrCopySafe(this->version, ref.version);
             this->port = ref.port;
             this->type = ref.type;
+            this->endpointsSize = ref.endpointsSize;
+            this->endpoints = nullptr;
+            if (ref.endpoints != nullptr) {
+                this->endpoints = new char*[ref.endpointsSize];
+                for (int i = 0; i < ref.endpointsSize; i++) {
+                    const size_t len = strlen(ref.endpoints[i]) + 1;
+                    this->endpoints[i] = new char[len];
+                    Utilities::StrCopySafe(this->endpoints[i], ref.endpoints[i], len);
+                }
+            }
         }
 
         /// <summary>
@@ -51,6 +62,7 @@ namespace VxSdk {
         void Clear() {
             shouldAutoCommission = false;
             VxZeroArray(this->driverType);
+            VxZeroArray(this->host);
             VxZeroArray(this->id);
             VxZeroArray(this->ip);
             VxZeroArray(this->model);
@@ -61,6 +73,8 @@ namespace VxSdk {
             VxZeroArray(this->vendor);
             VxZeroArray(this->version);
             this->port = 0;
+            this->endpointsSize = 0;
+            this->endpoints = nullptr;
             type = VxDeviceType::kUnknown;
         }
 
@@ -74,11 +88,19 @@ namespace VxSdk {
         /// </summary>
         char driverType[64];
         /// <summary>
+        /// Host address of the device. If set, takes precedence over the ip. The combination of host, port and
+        /// type must be unique, otherwise <see cref="VxResult::kConflict"/> will be returned.
+        /// <para> NOTE: One of either host or ip must be provided. </para>
+        /// </summary>
+        char host[256];
+        /// <summary>
         /// The id of this device
         /// </summary>
         char id[64];
         /// <summary>
-        /// The primary IP address. The IP address must be unique for this type of device.
+        /// The primary IP address of the device. Ignored if host is also provided. The combination of ip, port and
+        /// type must be unique, otherwise <see cref="VxResult::kConflict"/> will be returned.
+        /// <remarks>DEPRECATED. Use host instead.</remarks>
         /// </summary>
         char ip[64];
         /// <summary>
@@ -93,6 +115,11 @@ namespace VxSdk {
         /// The account password used to communicate with the device, if any.
         /// </summary>
         char password[64];
+        /// <summary>
+        /// The host port, if non-default. The combination of host, ip, port and type must be unique, otherwise
+        /// <see cref="VxResult::kConflict"/> will be returned.
+        /// </summary>
+        int port;
         /// <summary>
         /// The serial number of the device, if any.
         /// </summary>
@@ -110,9 +137,15 @@ namespace VxSdk {
         /// </summary>
         char version[64];
         /// <summary>
-        /// The host port, if non-default.
+        /// List of source URIs that the device will support. If the device type is <see cref="VxDeviceType::kGeneric"/>
+        /// then at least 1 URI must be provided. The URI must be unique, otherwise <see cref="VxResult::kConflict"/>
+        /// will be returned.
         /// </summary>
-        int port;
+        char** endpoints;
+        /// <summary>
+        /// The size of <see cref="endpoints"/>.
+        /// </summary>
+        int endpointsSize;
         /// <summary>
         /// The particular type of the device.
         /// </summary>

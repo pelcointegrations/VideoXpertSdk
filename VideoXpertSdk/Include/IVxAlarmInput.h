@@ -25,6 +25,12 @@ namespace VxSdk {
         /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
         virtual VxResult::Value GetHostDevice(IVxDevice*& hostDevice) const = 0;
         /// <summary>
+        /// Gets the limits related to this resource.
+        /// </summary>
+        /// <param name="limits">The limits related to this resource.</param>
+        /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
+        virtual VxResult::Value GetLimits(VxLimits*& limits) const = 0;
+        /// <summary>
         /// Refreshes this objects member values by retrieving its current information from the VideoXpert system.
         /// </summary>
         /// <returns>The <see cref="VxResult::Value">Result</see> of refreshing this objects member values.</returns>
@@ -41,6 +47,12 @@ namespace VxSdk {
         /// <param name="name">The new name value.</param>
         /// <returns>The <see cref="VxResult::Value">Result</see> of setting the property.</returns>
         virtual VxResult::Value SetName(char name[64]) = 0;
+        /// <summary>
+        /// Sets the type property.
+        /// </summary>
+        /// <param name="type">The new type value.</param>
+        /// <returns>The <see cref="VxResult::Value">Result</see> of setting the property.</returns>
+        virtual VxResult::Value SetType(VxAlarmInputType::Value type) = 0;
 
     public:
         /// <summary>
@@ -59,6 +71,10 @@ namespace VxSdk {
         /// The current state of the alarm input.
         /// </summary>
         VxAlarmState::Value state;
+        /// <summary>
+        /// The particular type of this alarm input.
+        /// </summary>
+        VxAlarmInputType::Value type;
 
     protected:
         /// <summary>
@@ -69,6 +85,7 @@ namespace VxSdk {
             VxZeroArray(this->id);
             VxZeroArray(this->name);
             this->state = VxAlarmState::kUnknown;
+            this->type = VxAlarmInputType::kUnknown;
         }
     };
 }

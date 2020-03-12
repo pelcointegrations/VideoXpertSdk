@@ -24,6 +24,7 @@ namespace VxSdk {
         /// <param name="ref">The reference.</param>
         VxNewDeviceAssignment(const VxNewDeviceAssignment& ref) {
             Utilities::StrCopySafe(this->deviceId, ref.deviceId);
+            Utilities::StrCopySafe(this->volumeGroupId, ref.volumeGroupId);
             this->dataSourceIdSize = ref.dataSourceIdSize;
             this->dataSourceIds = nullptr;
             if (ref.dataSourceIds != nullptr) {
@@ -48,6 +49,7 @@ namespace VxSdk {
         /// </summary>
         void Clear() {
             VxZeroArray(this->deviceId);
+            VxZeroArray(this->volumeGroupId);
             this->dataSourceIdSize = 0;
             this->dataSourceIds = nullptr;
         }
@@ -57,6 +59,11 @@ namespace VxSdk {
         /// The unique identifier of the device to assign.
         /// </summary>
         char deviceId[64];
+        /// <summary>
+        /// The unique identifier of the volume group to use for this device. If not provided, a volume group will be
+        /// selected automatically.
+        /// </summary>
+        char volumeGroupId[64];
         /// <summary>
         /// The data sources to assign.
         /// </summary>

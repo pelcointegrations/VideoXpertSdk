@@ -55,6 +55,10 @@ namespace VxSdk {
         /// </summary>
         int reasonDataSize;
         /// <summary>
+        /// The status of filling this gap.
+        /// </summary>
+        VxGapFillerStatus::Value gapFillerStatus;
+        /// <summary>
         /// The reason for this gap.
         /// </summary>
         VxGapReason::Value reason;
@@ -73,6 +77,7 @@ namespace VxSdk {
             VxZeroArray(this->endTime);
             VxZeroArray(this->startTime);
             this->reasonDataSize = 0;
+            this->gapFillerStatus = VxGapFillerStatus::kUnknown;
             this->reason = VxGapReason::kUnknown;
             this->reasonData = nullptr;
         }

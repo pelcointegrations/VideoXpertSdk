@@ -7,6 +7,8 @@
 #include "IVxExportClip.h"
 
 namespace VxSdk {
+    struct IVxExportStream;
+
     /// <summary>
     /// Represents an exported data set that is archived within the system.
     /// </summary>
@@ -23,11 +25,24 @@ namespace VxSdk {
         /// <returns>The <see cref="VxResult::Value">Result</see> of deleting the export.</returns>
         virtual VxResult::Value DeleteExport() const = 0;
         /// <summary>
+        /// Gets the <see cref="IVxExportStream"/> for this export.
+        /// </summary>
+        /// <param name="exportStream">The <see cref="IVxExportStream"/> for this export.</param>
+        /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
+        virtual VxResult::Value GetExportStream(IVxExportStream*& exportStream) const = 0;
+        /// <summary>
         /// Gets the <see cref="IVxUser"/> that owns this export, if any.
         /// </summary>
         /// <param name="user">The <see cref="IVxUser"/> that owns this export.</param>
         /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
         virtual VxResult::Value GetOwner(IVxUser*& user) const = 0;
+        /// <summary>
+        /// Gets the plain text password for this export if it's protected.
+        /// <para>Note: Only available when logged in as the built-in admin user.</para>
+        /// </summary>
+        /// <param name="password">The plain text password for this export.</param>
+        /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
+        virtual VxResult::Value GetPassword(char password[64]) const = 0;
         /// <summary>
         /// Refreshes this objects member values by retrieving its current information from the VideoXpert system.
         /// </summary>

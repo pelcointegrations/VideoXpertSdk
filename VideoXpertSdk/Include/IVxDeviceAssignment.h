@@ -41,6 +41,24 @@ namespace VxSdk {
         /// <param name="device">The assigned <see cref="IVxDevice"/>.</param>
         /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
         virtual VxResult::Value GetDevice(IVxDevice*& device) const = 0;
+        /// <summary>
+        /// Gets the limits related to this resource.
+        /// </summary>
+        /// <param name="limits">The limits related to this resource.</param>
+        /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
+        virtual VxResult::Value GetLimits(VxLimits*& limits) const = 0;
+        /// <summary>
+        /// Refreshes this objects member values by retrieving its current information from the VideoXpert system.
+        /// </summary>
+        /// <returns>The <see cref="VxResult::Value">Result</see> of refreshing this objects member values.</returns>
+        virtual VxResult::Value Refresh() = 0;
+        /// <summary>
+        /// Sets the unique identifier of the volume group to use for this device. If not provided, a volume group will
+        /// be selected automatically.
+        /// </summary>
+        /// <param name="volumeGroupId">The unique identifier.</param>
+        /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
+        virtual VxResult::Value SetVolumeGroupId(char volumeGroupId[64]) = 0;
 
     public:
         /// <summary>
@@ -48,12 +66,18 @@ namespace VxSdk {
         /// </summary>
         char id[64];
 
+        /// <summary>
+        /// The unique identifier of the volume group to use for this device.
+        /// </summary>
+        char volumeGroupId[64];
+
     protected:
         /// <summary>
         /// Clears this instance.
         /// </summary>
         void Clear() {
             VxZeroArray(this->id);
+            VxZeroArray(this->volumeGroupId);
         }
     };
 }

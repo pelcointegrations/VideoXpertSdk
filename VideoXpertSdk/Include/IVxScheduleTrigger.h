@@ -10,7 +10,8 @@ namespace VxSdk {
 
     /// <summary>
     /// Represents a schedule trigger. A schedule trigger is a time range and an optional event that together act as a
-    /// trigger to activate a schedule and cause it to perform its configured action.
+    /// trigger to activate a schedule. The schedule trigger is considered active when all of its time and event
+    /// attributes indicate it should be active. An active schedule trigger will perform its configured action.
     /// </summary>
     struct IVxScheduleTrigger {
     public:
@@ -25,10 +26,22 @@ namespace VxSdk {
         /// <returns>The <see cref="VxResult::Value">Result</see> of deleting the schedule trigger.</returns>
         virtual VxResult::Value DeleteScheduleTrigger() const = 0;
         /// <summary>
+        /// Gets the limits related to this resource.
+        /// </summary>
+        /// <param name="limits">The limits related to this resource.</param>
+        /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
+        virtual VxResult::Value GetLimits(VxLimits*& limits) const = 0;
+        /// <summary>
         /// Refreshes this objects member values by retrieving its current information from the VideoXpert system.
         /// </summary>
         /// <returns>The <see cref="VxResult::Value">Result</see> of refreshing this objects member values.</returns>
         virtual VxResult::Value Refresh() = 0;
+        /// <summary>
+        /// Sets the action to perform when this trigger activates.
+        /// </summary>
+        /// <param name="action">The new action value.</param>
+        /// <returns>The <see cref="VxResult::Value">Result</see> of setting the property.</returns>
+        virtual VxResult::Value SetAction(VxScheduleAction::Value action) = 0;
         /// <summary>
         /// Sets the event properties that must be present to activate the schedule trigger.
         /// </summary>
@@ -38,8 +51,10 @@ namespace VxSdk {
         virtual VxResult::Value SetEventProperties(VxKvObject* eventProperties, int eventPropertySize) = 0;
         /// <summary>
         /// Sets the <see cref="IVxEvent::situationType">type</see> of events that will activate the schedule trigger.
+        /// If set, the trigger is considered an "event" trigger and only activates when this type of event occurs,
+        /// otherwise it is considered a "timed" trigger.
         /// </summary>
-        /// <param name="eventSituationType">The event situation type.</param>
+        /// <param name="eventSituationType">The event situation type, or <c>nullptr</c> to clear existing value.</param>
         /// <returns>The <see cref="VxResult::Value">Result</see> of setting the property.</returns>
         virtual VxResult::Value SetEventSituationType(char eventSituationType[MAX_SITUATION_TYPE_LENGTH]) = 0;
         /// <summary>
@@ -48,6 +63,15 @@ namespace VxSdk {
         /// <param name="framerate">The framerate level.</param>
         /// <returns>The <see cref="VxResult::Value">Result</see> of setting the property.</returns>
         virtual VxResult::Value SetFramerate(VxRecordingFramerate::Value framerate) = 0;
+        /// <summary>
+        /// Sets the <see cref="IVxEvent::situationType">type</see> of events that will cause this trigger to no longer
+        /// be considered active. If not set, the trigger status will immediately be considered inactive after the
+        /// triggering event occurs.
+        /// <para>NOTE: This property is ignored if <see cref="eventSituationType"/> is not set.</para>
+        /// </summary>
+        /// <param name="inactiveEventSituationType">The event situation type, or <c>nullptr</c> to clear existing value.</param>
+        /// <returns>The <see cref="VxResult::Value">Result</see> of setting the property.</returns>
+        virtual VxResult::Value SetInactiveEventSituationType(char inactiveEventSituationType[MAX_SITUATION_TYPE_LENGTH]) = 0;
         /// <summary>
         /// Sets the amount of time to continue to consider the schedule trigger active when it becomes
         /// inactive ("post alarm").
@@ -88,6 +112,11 @@ namespace VxSdk {
         /// </summary>
         char id[64];
         /// <summary>
+        /// The <see cref="IVxEvent::situationType">type</see> of event that will cause this trigger to no longer be
+        /// considered active, if any.
+        /// </summary>
+        char inactiveEventSituationType[MAX_SITUATION_TYPE_LENGTH];
+        /// <summary>
         /// The unique identifier of the associated time table, if any.
         /// </summary>
         char timeTableId[64];
@@ -119,6 +148,10 @@ namespace VxSdk {
         /// The framerate level to record at.
         /// </summary>
         VxRecordingFramerate::Value framerate;
+        /// <summary>
+        /// The action performed when the schedule trigger actives.
+        /// </summary>
+        VxScheduleAction::Value action;
 
     protected:
         /// <summary>
@@ -127,6 +160,7 @@ namespace VxSdk {
         void Clear() {
             VxZeroArray(this->eventSituationType);
             VxZeroArray(this->id);
+            VxZeroArray(this->inactiveEventSituationType);
             VxZeroArray(this->timeTableId);
             this->eventPropertySize = 0;
             this->postTrigger = 0;
@@ -134,6 +168,7 @@ namespace VxSdk {
             this->timeout = 0;
             this->eventProperties = nullptr;
             this->framerate = VxRecordingFramerate::kUnknown;
+            this->action = VxScheduleAction::kUnknown;
         }
     };
 }

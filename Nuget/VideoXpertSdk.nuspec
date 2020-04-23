@@ -20,12 +20,12 @@
     <file src="..\VideoXpertSdk\Include\*" target="\build\native\include\" />
 
     <!-- Win32 v140 -->
-    <file src="..\VideoXpertSdk\Bin\Win32\VxSdk.dll" target="\build\native\Win32\bin\" />
-    <file src="..\VideoXpertSdk\Lib\Win32\VxSdk.lib" target="\build\native\Win32\lib\" />
+    <file src="..\VideoXpertSdk\Win32\Bin\VxSdk.dll" target="\build\native\Win32\bin\" />
+    <file src="..\VideoXpertSdk\Win32\Lib\VxSdk.lib" target="\build\native\Win32\lib\" />
 
     <!-- x64 v140 -->
-    <file src="..\VideoXpertSdk\Bin\x64\VxSdk.dll" target="\build\native\x64\bin\" />
-    <file src="..\VideoXpertSdk\Lib\x64\VxSdk.lib" target="\build\native\x64\lib\" />
+    <file src="..\VideoXpertSdk\x64\Bin\VxSdk.dll" target="\build\native\x64\bin\" />
+    <file src="..\VideoXpertSdk\x64\Lib\VxSdk.lib" target="\build\native\x64\lib\" />
 
     <!-- vs targets file -->
     <file src="VideoXpertSdk.targets" target="\build\native\VideoXpertSdk.targets"/>

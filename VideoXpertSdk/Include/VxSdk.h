@@ -124,8 +124,9 @@ namespace VxSdk {
     /// <param name="ipAddress">The IP address of the system we want to check.</param>
     /// <param name="port">The port of the system we want to check.</param>
     /// <param name="isSupported"><c>true</c> if system is supported, otherwise <c>false</c>.</param>
+    /// <param name="useSsl"><c>true</c> to connect to the system using SSL, otherwise <c>false</c>.</param>
     /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
-    EXTERN_C VXAPI VxResult::Value IsSupportedSystem(const char* ipAddress, int port, bool& isSupported);
+    EXTERN_C VXAPI VxResult::Value IsSupportedSystem(const char* ipAddress, int port, bool& isSupported, bool useSsl = true);
     /// <summary>
     /// Sets the minimum severity level of messages to log.
     /// </summary>

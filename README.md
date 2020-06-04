@@ -10,4 +10,4 @@ The version of the VideoXpert SDK files contained in this repo can be found in [
 
 * **Documentation:** [VideoXpert SDK v3.0 Documentation.pdf](VideoXpert%20SDK%20v3.0%20Documentation.pdf)
 
-Additional resources and documentation can be found on the [Pelco Developer Network](http://pdn.pelco.com) website.  If you have reviewed the tools and information available and determine that additional information is required please visit our [Developer Forums](http://pdn.pelco.com/forum).
+Additional resources and documentation can be found on the [Partner Developer Support](https://www.pelco.com/training-support/developer-support/) website.  If you have reviewed the tools and information available and determine that additional information is required please visit our [Integration & SDK Community Page](https://support.pelco.com/s/topic/0TO0a000000qDriGAE/videoxpert-vx-sdk).

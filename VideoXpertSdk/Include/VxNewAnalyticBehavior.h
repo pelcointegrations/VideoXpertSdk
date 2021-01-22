@@ -4,8 +4,8 @@
 #include "VxPrimitives.h"
 #include "VxUtilities.h"
 #include "VxMacros.h"
-#include "VxObjectCounter.h"
-#include "VxObjectZone.h"
+#include "VxObjectLineCounter.h"
+#include "VxObjectInZone.h"
 
 namespace VxSdk {
     /// <summary>
@@ -28,12 +28,11 @@ namespace VxSdk {
             this->isEnabled = ref.isEnabled;
             Utilities::StrCopySafe(this->id, ref.id);
             Utilities::StrCopySafe(this->name, ref.name);
-            this->sensitivity = ref.sensitivity;
             this->severity = ref.severity;
             this->behaviorType = ref.behaviorType;
             this->objectType = ref.objectType;
-            this->objectCounter = VxObjectCounter(ref.objectCounter);
-            this->objectZone = VxObjectZone(ref.objectZone);
+            this->objectLineCounter = VxObjectLineCounter(ref.objectLineCounter);
+            this->objectInZone = VxObjectInZone(ref.objectInZone);
         }
 
         /// <summary>
@@ -50,12 +49,11 @@ namespace VxSdk {
             this->isEnabled = false;
             VxZeroArray(this->id);
             VxZeroArray(this->name);
-            this->sensitivity = 0;
             this->severity = 0;
             this->behaviorType = VxAnalyticBehaviorType::kUnknown;
             this->objectType = VxAnalyticObjectType::kUnknown;
-            this->objectCounter.Clear();
-            this->objectZone.Clear();
+            this->objectLineCounter.Clear();
+            this->objectInZone.Clear();
         }
 
     public:
@@ -70,11 +68,7 @@ namespace VxSdk {
         /// <summary>
         /// The friendly name of the analytic behavior.
         /// </summary>
-        char name[128];
-        /// <summary>
-        /// The sensitivity of the analysis. Higher values increase sensitivity.
-        /// </summary>
-        int sensitivity;
+        char name[64];
         /// <summary>
         /// The severity value for events generated from this analytic behavior, from 1 (highest) to 10 (lowest).
         /// If set, overrides the corresponding situation severity.
@@ -89,15 +83,15 @@ namespace VxSdk {
         /// </summary>
         VxAnalyticObjectType::Value objectType;
         /// <summary>
-        /// The object counter data used when <see cref="behaviorType"/> is set to
-        /// <see cref="VxAnalyticBehaviorType::kObjectCounter"/>.
-        /// </summary>
-        VxObjectCounter objectCounter;
-        /// <summary>
         /// The object zone data used to configure analytics of <see cref="behaviorType"/> is set
         /// to <see cref="VxAnalyticBehaviorType::kObjectInZone"/>.
         /// </summary>
-        VxObjectZone objectZone;
+        VxObjectInZone objectInZone;
+        /// <summary>
+        /// The object line counter data used when <see cref="behaviorType"/> is set to
+        /// <see cref="VxAnalyticBehaviorType::kObjectLineCounter"/>.
+        /// </summary>
+        VxObjectLineCounter objectLineCounter;
     };
 }
 

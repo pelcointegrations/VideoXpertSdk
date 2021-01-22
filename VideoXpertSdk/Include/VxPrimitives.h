@@ -6,8 +6,8 @@ namespace VxSdk {
     /// Global Defines
     /// </summary>
     #define MAX_UUID_LENGTH				1024
-	#define MAX_SITUATION_TYPE_LENGTH	128
-	#define MAX_SITUATION_NAME_LENGTH	128
+    #define MAX_SITUATION_TYPE_LENGTH	128
+    #define MAX_SITUATION_NAME_LENGTH	128
 
     /// <summary>
     /// Values that represent a particular type of access point.
@@ -96,7 +96,7 @@ namespace VxSdk {
             kInactive
         };
     };
-	
+    
     /// <summary>
     /// Values that represent the type of analytic behavior being performed.
     /// </summary>
@@ -104,13 +104,15 @@ namespace VxSdk {
         enum Value {
             /// <summary>An error or unknown value was returned.</summary>
             kUnknown,
-            /// <summary>Object counting analytic.</summary>
-            kObjectCounter,
+            /// <summary>Object line counting analytic.</summary>
+            kObjectLineCounter,
             /// <summary>Object detected in zone analytic.</summary>
-            kObjectInZone
+            kObjectInZone,
+            /// <summary>Object wrong way analytic.</summary>
+            kObjectWrongWay
         };
     };
-	
+    
     /// <summary>
     /// Values that represent the type of object this analytic pertains to.
     /// </summary>
@@ -431,7 +433,9 @@ namespace VxSdk {
             /// <summary>Filter by parent id.</summary>
             kParentId,
             /// <summary>Filter by provider type.</summary>
-            kProvider
+            kProvider,
+            /// <summary>Filter by recording type.</summary>
+            kRecordType
         };
     };
 
@@ -885,6 +889,22 @@ namespace VxSdk {
             kClose,
             /// <summary>Open the iris.</summary>
             kOpen
+        };
+    };
+	
+    /// <summary>
+    /// Values that represent the types of object line counter analytics.
+    /// </summary>
+    struct VxLineCounterType {
+        enum Value {
+			/// <summary>An error or unknown value was returned.</summary>
+            kUnknown,
+			/// <summary>Type of line-counter that counts objects that cross a configured line in a specific direction.</summary>
+            kUnidirectional,
+			/// <summary>Type of line-counter that maintains two counts for objects that cross a configured line on either side of the line. For example in/out door counts.</summary>
+            kBidirectional,
+			/// <summary>Type of line-counter that maintains a single count for objects that cross a configured line in any direction.</summary>
+            kOmnidirectional
         };
     };
 

@@ -5,7 +5,7 @@
 #include "VxUtilities.h"
 #include "VxMacros.h"
 #include "VxCollection.h"
-#include "VxPoint.h"
+#include "VxResolution.h"
 
 namespace VxSdk {
     struct IVxAnalyticBehavior;
@@ -27,34 +27,28 @@ namespace VxSdk {
         /// <returns>The <see cref="VxResult::Value">Result</see> of deleting this instance.</returns>
         virtual VxResult::Value Delete() const = 0;
         /// <summary>
-        /// Gets the configured analytic behaviors.
-        /// <para>Available filters: kAdvancedQuery, kId, kModifiedSince, kName.</para>
-        /// </summary>
-        /// <param name="analyticBehaviorCollection">A <see cref="VxCollection"/> of the analytic behaviors.</param>
-        /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
-        virtual VxResult::Value GetAnalyticBehaviors(VxCollection<IVxAnalyticBehavior**>& analyticBehaviorCollection) const = 0;
-        /// <summary>
-        /// Gets the limits related to this resource.
-        /// </summary>
-        /// <param name="limits">The limits related to this resource.</param>
-        /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
-        virtual VxResult::Value GetLimits(VxLimits*& limits) const = 0;
-        /// <summary>
         /// Refreshes this objects member values by retrieving its current information from the VideoXpert system.
         /// </summary>
         /// <returns>The <see cref="VxResult::Value">Result</see> of refreshing this objects member values.</returns>
         virtual VxResult::Value Refresh() = 0;
         /// <summary>
-        /// Sets the coordinate system used for all analytic behavior data.
+        /// Sets the minConfidence property.
         /// </summary>
-        /// <remarks>
-        /// For example, if x=800 and y=600, then: (0,0) would be the pixel in the upper left corner of the camera’s
-        /// field of view, (799,599) would be the pixel in the lower right corner, and (400,300) would be one of the
-        /// four pixels right at the dead center.
-        /// </remarks>
+        /// <param name="minConfidence">The new minConfidence value.</param>
+        /// <returns>The <see cref="VxResult::Value">Result</see> of setting the property.</returns>
+        virtual VxResult::Value SetMinConfidence(float minConfidence) = 0;
+        /// <summary>
+        /// Sets the ptzPresetName property.
+        /// </summary>
+        /// <param name="ptzPresetName">The new ptzPresetName value.</param>
+        /// <returns>The <see cref="VxResult::Value">Result</see> of setting the property.</returns>
+        virtual VxResult::Value SetPtzPresetName(char ptzPresetName[64]) = 0;
+        /// <summary>
+        /// Sets the size property.
+        /// </summary>
         /// <param name="size">The new size value.</param>
         /// <returns>The <see cref="VxResult::Value">Result</see> of setting the property.</returns>
-        virtual VxResult::Value SetSize(VxPoint& size) = 0;
+        virtual VxResult::Value SetSize(VxResolution& size) = 0;
 
     public:
         /// <summary>
@@ -62,9 +56,30 @@ namespace VxSdk {
         /// </summary>
         char id[64];
         /// <summary>
-        /// Specifies the coordinate system used for all analytic behavior data.
+        /// Specifies the name of the PtzPreset that this configuration relates to. 
+        /// PTZ cameras supporting analytics can only be configured on PTZ presets.
         /// </summary>
-        VxPoint size;
+        char ptzPresetName[64];
+        /// <summary>
+        /// Defines the minimum confidence filtering value for detected objects 
+        /// in a video scene. Minimum confidence is defined as percentage of confidence 
+        /// represented as a decimal. For example, 0.0 = 0%, and 1.0 = 100%. Objects that 
+        /// have a detected confidence value less than the minimum will not be processed 
+        /// by the associated list of AnalyticBehavior.
+        /// </summary>
+        float minConfidence;
+        /// <summary>
+        /// The size of <see cref="analyticBehaviors"/>.
+        /// </summary>
+        int analyticBehaviorSize;
+        /// <summary>
+        /// The associated analytic behaviors for this config.
+        /// </summary>
+        IVxAnalyticBehavior** analyticBehaviors;
+        /// <summary>
+        /// Specifies the resolution of the grid used for all AnalyticBehavior data.
+        /// </summary>
+        VxResolution size;
 
     protected:
         /// <summary>
@@ -72,7 +87,11 @@ namespace VxSdk {
         /// </summary>
         void Clear() {
             VxZeroArray(this->id);
+            VxZeroArray(this->ptzPresetName);
             this->size.Clear();
+            this->minConfidence = 0;
+            this->analyticBehaviorSize = 0;
+            this->analyticBehaviors = nullptr;
         }
     };
 }

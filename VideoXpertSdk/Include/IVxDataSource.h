@@ -88,11 +88,11 @@ namespace VxSdk {
         /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
         virtual VxResult::Value GetAllDataStorages(VxCollection<IVxDataStorage**>& dataStorageCollection) const = 0;
         /// <summary>
-        /// Gets the analytic configuration for this data source.
+        /// Get the analytic configurations for this data source.
         /// </summary>
-        /// <param name="analyticConfig">The <see cref="IVxAnalyticConfig"/> for this data source.</param>
+        /// <param name="analyticConfigCollection">A <see cref="VxCollection"/> of the analytic configs for this data source.</param>
         /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
-        virtual VxResult::Value GetAnalyticConfig(IVxAnalyticConfig*& analyticConfig) const = 0;
+        virtual VxResult::Value GetAnalyticConfigs(VxCollection<IVxAnalyticConfig**>& analyticConfigCollection) const = 0;
         /// <summary>
         /// Gets the analytic sessions for this data source.
         /// <para>Available filters: kAdvancedQuery, kDataSourceId, kDeviceId, kId, kModifiedSince.</para>

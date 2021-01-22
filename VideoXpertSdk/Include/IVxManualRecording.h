@@ -8,10 +8,13 @@
 
 namespace VxSdk {
     /// <summary>
+    /// DEPRECATED: Replaced by <see cref="IVxRecording"/>
+    /// <para>
     /// Represents an instance of an active manual recording (the action, not the recorded clip). Each manual recording
     /// will cause its specified data source to be manually recorded by all data storages that the data source is
     /// assigned to. Only one manual recording per user per data source is allowed. A clip created via the application
     /// of a manual recording will have an event value of manual.
+    /// </para>
     /// </summary>
     struct IVxManualRecording {
     public:

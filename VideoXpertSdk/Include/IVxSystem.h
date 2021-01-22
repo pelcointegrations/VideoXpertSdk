@@ -71,7 +71,8 @@ namespace VxSdk {
         /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
         virtual VxResult::Value AddDrawing(VxNewDrawing& newDrawing) const = 0;
         /// <summary>
-        /// Adds a new manual recording to the VideoXpert system.
+        /// DEPRECATED: Replaced by <see cref="IVxSystem::AddRecording"/>
+        /// <para>Adds a new manual recording to the VideoXpert system.</para>
         /// </summary>
         /// <param name="newManualRecording">The new manual recording to be added to the system.</param>
         /// <param name="manualRecordingItem">
@@ -85,6 +86,15 @@ namespace VxSdk {
         /// <param name="newMember">The new member system to be aggregated.</param>
         /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
         virtual VxResult::Value AddMember(VxNewMember& newMember) const = 0;
+        /// <summary>
+        /// Adds a new recording to the VideoXpert system.
+        /// </summary>
+        /// <param name="newRecording">The new recording to be added to the system.</param>
+        /// <param name="recordingItem">
+        /// <c>nullptr</c> if it fails, else the new <see cref="IVxRecording"/>.
+        /// </param>
+        /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
+        virtual VxResult::Value AddRecording(VxNewRecording& newRecording, IVxRecording*& recordingItem) const = 0;
         /// <summary>
         /// Adds a new role to the system.
         /// </summary>
@@ -325,7 +335,8 @@ namespace VxSdk {
         /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
         virtual VxResult::Value GetLicense(IVxLicense*& license) const = 0;
         /// <summary>
-        /// Gets the manual recordings residing on the system.
+        /// DEPRECATED: Replaced by <see cref="IVxSystem::GetRecordings"/>
+        /// <para>Gets the manual recordings residing on the system.</para>
         /// <para>Available filters: kAdvancedQuery, kDataSourceId, kId, kModifiedSince, kOwner.</para>
         /// </summary>
         /// <param name="manualRecordingCollection">
@@ -360,6 +371,15 @@ namespace VxSdk {
         /// </param>
         /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
         virtual VxResult::Value GetMonitorWalls(VxCollection<IVxMonitorWall**>& monitorWallCollection) const = 0;
+        /// <summary>
+        /// Gets the recordings residing on the system.
+        /// <para>Available filters: kAdvancedQuery, kDataSourceId, kId, kModifiedSince, kName, kOwner, kRecordType.</para>
+        /// </summary>
+        /// <param name="recordingCollection">
+        /// A <see cref="VxCollection"/> of the recordings residing on the system.
+        /// </param>
+        /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
+        virtual VxResult::Value GetRecordings(VxCollection<IVxRecording**>& recordingCollection) const = 0;
         /// <summary>
         /// Gets the relay outputs residing on the system.
         /// <para>Available filters: kAdvancedQuery, kEnabled, kId, kModifiedSince, kName, kState.</para>

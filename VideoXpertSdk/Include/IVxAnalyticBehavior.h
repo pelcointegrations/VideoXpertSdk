@@ -4,8 +4,8 @@
 #include "VxPrimitives.h"
 #include "VxUtilities.h"
 #include "VxMacros.h"
-#include "VxObjectCounter.h"
-#include "VxObjectZone.h"
+#include "VxObjectLineCounter.h"
+#include "VxObjectInZone.h"
 
 namespace VxSdk {
 
@@ -14,11 +14,6 @@ namespace VxSdk {
     /// </summary>
     struct IVxAnalyticBehavior {
     public:
-        /// <summary>
-        /// Deletes this instance.
-        /// </summary>
-        /// <returns>The <see cref="VxResult::Value">Result</see> of deleting this instance.</returns>
-        virtual VxResult::Value Delete() const = 0;
         /// <summary>
         /// Delete this analytic behavior.
         /// </summary>
@@ -35,12 +30,6 @@ namespace VxSdk {
         /// <returns>The <see cref="VxResult::Value">Result</see> of enabling this analytic behavior.</returns>
         virtual VxResult::Value Enable() = 0;
         /// <summary>
-        /// Gets the limits related to this resource.
-        /// </summary>
-        /// <param name="limits">The limits related to this resource.</param>
-        /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
-        virtual VxResult::Value GetLimits(VxLimits*& limits) const = 0;
-        /// <summary>
         /// Refreshes this objects member values by retrieving its current information from the VideoXpert system.
         /// </summary>
         /// <returns>The <see cref="VxResult::Value">Result</see> of refreshing this objects member values.</returns>
@@ -50,31 +39,25 @@ namespace VxSdk {
         /// </summary>
         /// <param name="name">The new name value.</param>
         /// <returns>The <see cref="VxResult::Value">Result</see> of setting the property.</returns>
-        virtual VxResult::Value SetName(char name[128]) = 0;
+        virtual VxResult::Value SetName(char name[64]) = 0;
         /// <summary>
-        /// Sets the objectCounter property.
+        /// Sets the objectInZone property.
         /// </summary>
-        /// <param name="objectCounter">The new objectCounter value.</param>
+        /// <param name="objectInZone">The new objectInZone value.</param>
         /// <returns>The <see cref="VxResult::Value">Result</see> of setting the property.</returns>
-        virtual VxResult::Value SetObjectCounter(VxObjectCounter& objectCounter) = 0;
+        virtual VxResult::Value SetObjectInZone(VxObjectInZone& objectInZone) = 0;
+        /// <summary>
+        /// Sets the objectLineCounter property.
+        /// </summary>
+        /// <param name="objectLineCounter">The new objectLineCounter value.</param>
+        /// <returns>The <see cref="VxResult::Value">Result</see> of setting the property.</returns>
+        virtual VxResult::Value SetObjectLineCounter(VxObjectLineCounter& objectLineCounter) = 0;
         /// <summary>
         /// Sets the objectType property.
         /// </summary>
         /// <param name="objectType">The new objectType value.</param>
         /// <returns>The <see cref="VxResult::Value">Result</see> of setting the property.</returns>
         virtual VxResult::Value SetObjectType(VxAnalyticObjectType::Value objectType) = 0;
-        /// <summary>
-        /// Sets the objectZone property.
-        /// </summary>
-        /// <param name="objectZone">The new objectZone value.</param>
-        /// <returns>The <see cref="VxResult::Value">Result</see> of setting the property.</returns>
-        virtual VxResult::Value SetObjectZone(VxObjectZone& objectZone) = 0;
-        /// <summary>
-        /// Sets the sensitivity of the analysis. Higher values increase sensitivity.
-        /// </summary>
-        /// <param name="sensitivity">The new sensitivity value.</param>
-        /// <returns>The <see cref="VxResult::Value">Result</see> of setting the property.</returns>
-        virtual VxResult::Value SetSensitivity(int sensitivity) = 0;
         /// <summary>
         /// Sets the severity value for events generated from this analytic behavior, from 1 (highest) to 10 (lowest).
         /// If set, overrides the corresponding situation severity.
@@ -95,18 +78,14 @@ namespace VxSdk {
         /// <summary>
         /// The friendly name of the analytic behavior.
         /// </summary>
-        char name[128];
-        /// <summary>
-        /// The sensitivity of the analysis. Higher values increase sensitivity.
-        /// </summary>
-        int sensitivity;
+        char name[64];
         /// <summary>
         /// The severity value for events generated from this analytic behavior, from 1 (highest) to 10 (lowest).
         /// If set, overrides the corresponding situation severity.
         /// </summary>
         int severity;
         /// <summary>
-        /// The type of analytic behavior being performed.
+        /// The type of this AnalyticBehavior.
         /// </summary>
         VxAnalyticBehaviorType::Value behaviorType;
         /// <summary>
@@ -114,15 +93,15 @@ namespace VxSdk {
         /// </summary>
         VxAnalyticObjectType::Value objectType;
         /// <summary>
-        /// The object counter data used when <see cref="behaviorType"/> is set to
-        /// <see cref="VxAnalyticBehaviorType::kObjectCounter"/>.
-        /// </summary>
-        VxObjectCounter objectCounter;
-        /// <summary>
-        /// The object zone data used to configure analytics of <see cref="behaviorType"/> is set
+        /// The object in zone data used to configure analytics of <see cref="behaviorType"/> is set
         /// to <see cref="VxAnalyticBehaviorType::kObjectInZone"/>.
         /// </summary>
-        VxObjectZone objectZone;
+        VxObjectInZone objectInZone;
+        /// <summary>
+        /// The object line counter data used when <see cref="behaviorType"/> is set to
+        /// <see cref="VxAnalyticBehaviorType::kObjectLineCounter"/>.
+        /// </summary>
+        VxObjectLineCounter objectLineCounter;
 
     protected:
         /// <summary>
@@ -132,12 +111,11 @@ namespace VxSdk {
             this->isEnabled = false;
             VxZeroArray(this->id);
             VxZeroArray(this->name);
-            this->sensitivity = 0;
             this->severity = 0;
             this->behaviorType = VxAnalyticBehaviorType::kUnknown;
             this->objectType = VxAnalyticObjectType::kUnknown;
-            this->objectCounter.Clear();
-            this->objectZone.Clear();
+            this->objectLineCounter.Clear();
+            this->objectInZone.Clear();
         }
     };
 }

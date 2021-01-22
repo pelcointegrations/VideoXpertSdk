@@ -6,7 +6,10 @@
 
 namespace VxSdk {
     /// <summary>
+    /// DEPRECATED: Replaced by <see cref="VxNewRecording"/>
+    /// <para>
     /// Represents a request for a new manual recording to be generated.
+    /// </para>
     /// </summary>
     struct VxNewManualRecording {
     public:

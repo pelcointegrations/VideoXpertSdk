@@ -441,6 +441,12 @@ namespace VxSdk {
         /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
         virtual VxResult::Value GetSnmpConfiguration(IVxConfiguration::Snmp*& snmpConfig) const = 0;
         /// <summary>
+        /// Gets the current system time (UTC).
+        /// </summary>
+        /// <param name="systemTime">The current time from the system (UTC).</param>
+        /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
+        virtual VxResult::Value GetSystemTime(char systemTime[64]) const = 0;
+        /// <summary>
         /// Gets the tags residing on the system.
         /// <para>
         /// Available filters: kAdvancedQuery, kFolder, kId, kModifiedSince, kName, kOwned, kOwner, kParentId,

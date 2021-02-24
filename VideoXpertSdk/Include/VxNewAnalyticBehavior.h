@@ -6,6 +6,7 @@
 #include "VxMacros.h"
 #include "VxObjectLineCounter.h"
 #include "VxObjectInZone.h"
+#include "VxObjectWrongWayZone.h"
 
 namespace VxSdk {
     /// <summary>
@@ -33,6 +34,7 @@ namespace VxSdk {
             this->objectType = ref.objectType;
             this->objectLineCounter = VxObjectLineCounter(ref.objectLineCounter);
             this->objectInZone = VxObjectInZone(ref.objectInZone);
+            this->objectWrongWayZone = VxObjectWrongWayZone(ref.objectWrongWayZone);
         }
 
         /// <summary>
@@ -54,6 +56,7 @@ namespace VxSdk {
             this->objectType = VxAnalyticObjectType::kUnknown;
             this->objectLineCounter.Clear();
             this->objectInZone.Clear();
+            this->objectWrongWayZone.Clear();
         }
 
     public:
@@ -92,6 +95,11 @@ namespace VxSdk {
         /// <see cref="VxAnalyticBehaviorType::kObjectLineCounter"/>.
         /// </summary>
         VxObjectLineCounter objectLineCounter;
+        /// <summary>
+        /// The object wrong way zone data used when <see cref="behaviorType"/> is set to
+        /// <see cref="VxAnalyticBehaviorType::kObjectWrongWay"/>.
+        /// </summary>
+        VxObjectWrongWayZone objectWrongWayZone;
     };
 }
 

@@ -27,6 +27,11 @@ namespace VxSdk {
         /// <returns>The <see cref="VxResult::Value">Result</see> of deleting this instance.</returns>
         virtual VxResult::Value Delete() const = 0;
         /// <summary>
+        /// Delete this analytic config.
+        /// </summary>
+        /// <returns>The <see cref="VxResult::Value">Result</see> of deleting the analytic config.</returns>
+        virtual VxResult::Value DeleteAnalyticConfig() const = 0;
+        /// <summary>
         /// Refreshes this objects member values by retrieving its current information from the VideoXpert system.
         /// </summary>
         /// <returns>The <see cref="VxResult::Value">Result</see> of refreshing this objects member values.</returns>

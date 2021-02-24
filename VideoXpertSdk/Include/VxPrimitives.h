@@ -112,6 +112,20 @@ namespace VxSdk {
             kObjectWrongWay
         };
     };
+
+    /// <summary>
+    /// Values that represent analytic capabilities that are supported for analytic configs.
+    /// </summary>
+    struct VxAnalyticCapability {
+        enum Value {
+            /// <summary>An error or unknown value was returned.</summary>
+            kUnknown,
+            /// <summary>Line-based object counting events related to the object line counter behavior.</summary>
+            kObjectLineCounterEvents,
+            /// <summary>Capable of resetting the count values of an object line counter behavior.</summary>
+            kObjectLineCounterReset
+        };
+    };
     
     /// <summary>
     /// Values that represent the type of object this analytic pertains to.

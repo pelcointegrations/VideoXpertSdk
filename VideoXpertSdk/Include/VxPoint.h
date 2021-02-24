@@ -46,11 +46,11 @@ namespace VxSdk {
         /// <summary>
         /// The X-axis coordinate value.
         /// </summary>
-        int x;
+        float x;
         /// <summary>
         /// The Y-axis coordinate value.
         /// </summary>
-        int y;
+        float y;
     };
 }
 

@@ -19,6 +19,7 @@
 #include "VxLoginInfo.h"
 #include "VxMonitorPosition.h"
 #include "VxNewAnalyticBehavior.h"
+#include "VxNewAnalyticConfig.h"
 #include "VxNewAnalyticSession.h"
 #include "VxNewBookmark.h"
 #include "VxNewClip.h"
@@ -47,6 +48,7 @@
 #include "VxNewVolumeGroup.h"
 #include "VxObjectLineCounter.h"
 #include "VxObjectInZone.h"
+#include "VxObjectWrongWayZone.h"
 #include "VxPoint.h"
 #include "VxRect.h"
 #include "VxRetention.h"
@@ -54,6 +56,7 @@
 #include "VxSmtpInfo.h"
 #include "VxSnapshotFilter.h"
 #include "VxTimeRange.h"
+#include "VxVector.h"
 
 #include "IVxAccessPoint.h"
 #include "IVxAlarmInput.h"

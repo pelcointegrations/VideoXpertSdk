@@ -30,6 +30,12 @@ namespace VxSdk {
     struct IVxDataSource {
     public:
         /// <summary>
+        /// Adds a new analytic config.
+        /// </summary>
+        /// <param name="newAnalyticConfig">The new analytic config to be added.</param>
+        /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
+        virtual VxResult::Value AddAnalyticConfig(VxNewAnalyticConfig& newAnalyticConfig) const = 0;
+        /// <summary>
         /// Adds a new analytic session.
         /// </summary>
         /// <param name="newAnalyticSession">The new analytic session to be added.</param>
@@ -88,6 +94,13 @@ namespace VxSdk {
         /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
         virtual VxResult::Value GetAllDataStorages(VxCollection<IVxDataStorage**>& dataStorageCollection) const = 0;
         /// <summary>
+        /// Gets the list of analytic capabilities that are supported.
+        /// </summary>
+        /// <param name="analyticCapabilities">The analytic capabilities that are supported.</param>
+        /// <param name="size">The size of <paramref name="analyticCapabilities"/>.</param>
+        /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
+        virtual VxResult::Value GetAnalyticCapabilities(VxAnalyticCapability::Value* analyticCapabilities, int& size) const = 0;
+        /// <summary>
         /// Get the analytic configurations for this data source.
         /// </summary>
         /// <param name="analyticConfigCollection">A <see cref="VxCollection"/> of the analytic configs for this data source.</param>
@@ -111,6 +124,13 @@ namespace VxSdk {
         /// <param name="resourceRelCollection">A <see cref="VxCollection"/> of related resources.</param>
         /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
         virtual VxResult::Value GetAudioRelations(VxCollection<IVxResourceRel**>& resourceRelCollection) const = 0;
+        /// <summary>
+        /// Gets the list of analytic behavior types that are supported.
+        /// </summary>
+        /// <param name="analyticBehaviorTypes">The analytic behavior types that are supported..</param>
+        /// <param name="size">The size of <paramref name="analyticBehaviorTypes"/>.</param>
+        /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
+        virtual VxResult::Value GetAvailableAnalyticBehaviorTypes(VxAnalyticBehaviorType::Value* analyticBehaviorTypes, int& size) const = 0;
         /// <summary>
         /// Gets the bookmarks associated with this data source.
         /// <para>

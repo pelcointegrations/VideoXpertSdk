@@ -6,6 +6,7 @@
 #include "VxMacros.h"
 #include "VxObjectLineCounter.h"
 #include "VxObjectInZone.h"
+#include "VxObjectWrongWayZone.h"
 
 namespace VxSdk {
 
@@ -59,6 +60,12 @@ namespace VxSdk {
         /// <returns>The <see cref="VxResult::Value">Result</see> of setting the property.</returns>
         virtual VxResult::Value SetObjectType(VxAnalyticObjectType::Value objectType) = 0;
         /// <summary>
+        /// Sets the objectWrongWayZone property.
+        /// </summary>
+        /// <param name="objectWrongWayZone">The new objectWrongWayZone value.</param>
+        /// <returns>The <see cref="VxResult::Value">Result</see> of setting the property.</returns>
+        virtual VxResult::Value SetObjectWrongWayZone(VxObjectWrongWayZone& objectWrongWayZone) = 0;
+        /// <summary>
         /// Sets the severity value for events generated from this analytic behavior, from 1 (highest) to 10 (lowest).
         /// If set, overrides the corresponding situation severity.
         /// </summary>
@@ -102,6 +109,11 @@ namespace VxSdk {
         /// <see cref="VxAnalyticBehaviorType::kObjectLineCounter"/>.
         /// </summary>
         VxObjectLineCounter objectLineCounter;
+        /// <summary>
+        /// The object wrong way zone data used when <see cref="behaviorType"/> is set to
+        /// <see cref="VxAnalyticBehaviorType::kObjectWrongWay"/>.
+        /// </summary>
+        VxObjectWrongWayZone objectWrongWayZone;
 
     protected:
         /// <summary>
@@ -116,6 +128,7 @@ namespace VxSdk {
             this->objectType = VxAnalyticObjectType::kUnknown;
             this->objectLineCounter.Clear();
             this->objectInZone.Clear();
+            this->objectWrongWayZone.Clear();
         }
     };
 }

@@ -4,7 +4,7 @@ This repo contains the files used to create the Pelco VideoXpert SDK Nuget packa
 
 ## Versioning
 
-The version of the VideoXpert SDK files contained in this repo can be found in [VXSDK-VERSION.md](../VideoXpertSdk/VXSDK-VERSION.md).
+The version of the VideoXpert SDK files contained in this repo can be found in [VXSDK-VERSION.md](../master/VideoXpertSdk/VXSDK-VERSION.md).
 
 ## Support
 

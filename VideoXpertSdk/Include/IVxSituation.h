@@ -229,6 +229,10 @@ namespace VxSdk {
         /// </summary>
         char type[MAX_SITUATION_TYPE_LENGTH];
         /// <summary>
+        /// The situation type opposite of this situation, if any.
+        /// </summary>
+        char typeOpposite[MAX_SITUATION_TYPE_LENGTH];
+        /// <summary>
         /// The unique identifiers of the notifications configured for this situation.
         /// </summary>
         char** notificationIds;
@@ -286,6 +290,7 @@ namespace VxSdk {
             VxZeroArray(this->serviceType);
             VxZeroArray(this->sourceDeviceId);
             VxZeroArray(this->type);
+            VxZeroArray(this->typeOpposite);
             this->notificationIds = nullptr;
             this->autoAcknowledgeTime = 0;
             this->audibleLoopDelay = 0;

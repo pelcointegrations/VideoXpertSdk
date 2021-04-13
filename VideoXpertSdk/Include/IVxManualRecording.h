@@ -8,7 +8,7 @@
 
 namespace VxSdk {
     /// <summary>
-    /// DEPRECATED: Replaced by <see cref="IVxRecording"/>
+    /// DEPRECATED: Replaced by IVxRecording.
     /// <para>
     /// Represents an instance of an active manual recording (the action, not the recorded clip). Each manual recording
     /// will cause its specified data source to be manually recorded by all data storages that the data source is

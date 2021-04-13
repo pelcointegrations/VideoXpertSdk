@@ -6,6 +6,8 @@
 #include "VxNewVolume.h"
 #include "IVxFileRecovery.h"
 #include "IVxVolume.h"
+#include "VxNewUser.h"
+#include "VxNetworkStorageInfo.h"
 
 namespace VxSdk {
     struct VxSmtpInfo;
@@ -55,17 +57,34 @@ namespace VxSdk {
             /// </returns>
             virtual VxResult::Value Refresh() = 0;
             /// <summary>
+            /// Sets the password on the physical host device (for the current username). If successful, device password will be set to match.
+            /// </summary>
+            /// <param name="newPassword">New password being requested. Must contain more than 7 characters.</param>
+            /// <param name="mustChangePassword">If <c>true</c>, the password will immediately be expired the first time it is used to login.</param>
+            /// <returns>The <see cref="VxResult::Value">Result</see> of setting the property.</returns>
+            virtual VxResult::Value SetPassword(char newPassword[1024], bool mustChangePassword) = 0;
+            /// <summary>
             /// Sets the passwordExpiration property.
             /// </summary>
             /// <param name="passwordExpiration">The amount of time, in days.</param>
             /// <returns>The <see cref="VxResult::Value">Result</see> of setting the property.</returns>
             virtual VxResult::Value SetPasswordExpiration(int passwordExpiration) = 0;
+            /// <summary>
+            /// Sets the user on the physical host device (creating/replacing as necessary). If successful, device username will be set to match.
+            /// </summary>
+            /// <param name="user">The user to set on the device.</param>
+            /// <returns>The <see cref="VxResult::Value">Result</see> of setting the property.</returns>
+            virtual VxResult::Value SetUser(VxNewUser& user) = 0;
 
         public:
             /// <summary>
             /// Indicates whether or not password expiration is enabled for all users.
             /// </summary>
             bool isPasswordExpirationEnabled;
+            /// <summary>
+            /// The minimum length allowed for a new user password.
+            /// </summary>
+            int minPasswordLength;
             /// <summary>
             /// The amount of time, in days, at which a user password will expire (from when it was last set/changed).
             /// Ignored if <see cref="isPasswordExpirationEnabled"/> is <c>false</c>.
@@ -78,6 +97,7 @@ namespace VxSdk {
             /// </summary>
             void Clear() {
                 this->isPasswordExpirationEnabled = false;
+                this->minPasswordLength = 0;
                 this->passwordExpiration = 0;
             }
         };
@@ -217,6 +237,12 @@ namespace VxSdk {
             /// <returns>The <see cref="VxResult::Value">Result</see> of setting the limit.</returns>
             virtual VxResult::Value SetAggregatedEventLimit(int aggregatedEventLimit) = 0;
             /// <summary>
+            /// Sets the availabilityMode property.
+            /// </summary>
+            /// <param name="availabilityMode">The new availability mode value.</param>
+            /// <returns>The <see cref="VxResult::Value">Result</see> of setting the property.</returns>
+            virtual VxResult::Value SetAvailabilityMode(VxClusterAvailabilityMode::Value availabilityMode) = 0;
+            /// <summary>
             /// Sets the virtual IP or hostname to use for VxCore devices.
             /// </summary>
             /// <param name="coreVirtualIp">The new virtual ip/hostname value.</param>
@@ -271,6 +297,13 @@ namespace VxSdk {
             /// <param name="transcastMethod">The new transcast method value.</param>
             /// <returns>The <see cref="VxResult::Value">Result</see> of setting the property.</returns>
             virtual VxResult::Value SetTranscastMethod(VxMgTranscast::Value transcastMethod) = 0;
+            /// <summary>
+            /// Validate a network storage path for availability as export storage.
+            /// </summary>
+            /// <param name="isValid"><c>true</c> if the path is valid, otherwise <c>false</c>.</param>
+            /// <param name="exportStorageInfo">The export storage path to validate.</param>
+            /// <returns>The <see cref="VxResult::Value">Result</see> of validating the SMTP information.</returns>
+            virtual VxResult::Value ValidateExportPath(bool& isValid, VxNetworkStorageInfo& exportStorageInfo) = 0;
 
         public:
             /// <summary>
@@ -335,6 +368,10 @@ namespace VxSdk {
             /// </summary>
             int statusCode;
             /// <summary>
+            /// The availability mode for the cluster, which determines how the nodes in the cluster are balanced and failover.
+            /// </summary>
+            VxClusterAvailabilityMode::Value availabilityMode;
+            /// <summary>
             /// The current configuration status of the entire cluster.
             /// </summary>
             VxConfigStatus::Value status;
@@ -362,8 +399,130 @@ namespace VxSdk {
                 this->localEventLimit = 0;
                 this->nodeLicenseLimit = 0;
                 this->statusCode = 0;
+                this->availabilityMode = VxClusterAvailabilityMode::kUnknown;
                 this->status = VxConfigStatus::kUnknown;
                 this->transcastMethod = VxMgTranscast::kUnknown;
+            }
+        };
+
+        /// <summary>
+        /// Represents event configuration.
+        /// </summary>
+        struct Event {
+        public:
+            /// <summary>
+            /// Deletes this instance.
+            /// </summary>
+            /// <returns>The <see cref="VxResult::Value">Result</see> of deleting this instance.</returns>
+            virtual VxResult::Value Delete() const = 0;
+            /// <summary>
+            /// Gets the limits related to this resource.
+            /// </summary>
+            /// <param name="limits">The limits related to this resource.</param>
+            /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
+            virtual VxResult::Value GetLimits(VxLimits*& limits) const = 0;
+            /// <summary>
+            /// Refreshes this objects member values by retrieving its current information from the VideoXpert system.
+            /// </summary>
+            /// <returns>
+            /// The <see cref="VxResult::Value">Result</see> of refreshing this objects member values.
+            /// </returns>
+            virtual VxResult::Value Refresh() = 0;
+            /// <summary>
+            /// Sets the aggregatedEventLimit property.
+            /// </summary>
+            /// <param name="aggregatedEventLimit">The new aggregated event limit, in days.</param>
+            /// <returns>The <see cref="VxResult::Value">Result</see> of setting the property.</returns>
+            virtual VxResult::Value SetAggregatedEventLimit(int aggregatedEventLimit) = 0;
+            /// <summary>
+            /// Sets the localEventLimit property.
+            /// </summary>
+            /// <param name="localEventLimit">The new local event limit, in days.</param>
+            /// <returns>The <see cref="VxResult::Value">Result</see> of setting the property.</returns>
+            virtual VxResult::Value SetLocalEventLimit(int localEventLimit) = 0;
+            /// <summary>
+            /// Sets the maxEvents property.
+            /// </summary>
+            /// <param name="maxEvents">The new max events limit.</param>
+            /// <returns>The <see cref="VxResult::Value">Result</see> of setting the property.</returns>
+            virtual VxResult::Value SetMaxEvents(int maxEvents) = 0;
+
+        public:
+            /// <summary>
+            /// The retention limit, in days, on logged events from aggregated sources. Any aggregated events that
+            /// exceed this limit shall be deleted.
+            /// </summary>
+            int aggregatedEventLimit;
+            /// <summary>
+            /// The retention limit, in days, on logged events. Any events that exceed this limit shall be deleted.
+            /// </summary>
+            int localEventLimit;
+            /// <summary>
+            /// The retention limit, in number of events, on logged events from any sources. Any events that exceed
+            /// this limit shall be deleted, starting with the oldest events and giving priority to retaining high
+            /// severity events.
+            /// </summary>
+            int maxEvents;
+
+        protected:
+            /// <summary>
+            /// Clears this instance.
+            /// </summary>
+            void Clear() {
+                this->aggregatedEventLimit = 0;
+                this->localEventLimit = 0;
+                this->maxEvents = 0;
+            }
+        };
+
+        /// <summary>
+        /// Represents export configuration.
+        /// </summary>
+        struct Export {
+        public:
+            /// <summary>
+            /// Deletes this instance.
+            /// </summary>
+            /// <returns>The <see cref="VxResult::Value">Result</see> of deleting this instance.</returns>
+            virtual VxResult::Value Delete() const = 0;
+            /// <summary>
+            /// Gets the limits related to this resource.
+            /// </summary>
+            /// <param name="limits">The limits related to this resource.</param>
+            /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
+            virtual VxResult::Value GetLimits(VxLimits*& limits) const = 0;
+            /// <summary>
+            /// Refreshes this objects member values by retrieving its current information from the VideoXpert system.
+            /// </summary>
+            /// <returns>
+            /// The <see cref="VxResult::Value">Result</see> of refreshing this objects member values.
+            /// </returns>
+            virtual VxResult::Value Refresh() = 0;
+            /// <summary>
+            /// Sets the forceProtect property.
+            /// </summary>
+            /// <param name="forceProtect">The new force protect value.</param>
+            /// <returns>The <see cref="VxResult::Value">Result</see> of setting the property.</returns>
+            virtual VxResult::Value SetForceProtect(bool forceProtect) = 0;
+            /// <summary>
+            /// Set a global password for all new exports. Ignored if forceProtect is <c>false</c>.
+            /// </summary>
+            /// <param name="password">The new global password for exports.</param>
+            /// <returns>The <see cref="VxResult::Value">Result</see> of setting the property.</returns>
+            virtual VxResult::Value SetProtectPassword(char password[1024]) = 0;
+
+        public:
+            /// <summary>
+            /// When <c>true</c>, every new export will be created with password protection.
+            /// </summary>
+            bool forceProtect;
+
+        protected:
+            /// <summary>
+            /// Clears this instance.
+            /// </summary>
+            void Clear() {
+                this->forceProtect = false;
             }
         };
 
@@ -735,6 +894,57 @@ namespace VxSdk {
                 this->arbiterPort = 0;
                 this->status = VxConfigStatus::kUnknown;
                 this->type = VxNodeType::kUnknown;
+            }
+        };
+
+        /// <summary>
+        /// Represents report configuration.
+        /// </summary>
+        struct Report {
+        public:
+            /// <summary>
+            /// Deletes this instance.
+            /// </summary>
+            /// <returns>The <see cref="VxResult::Value">Result</see> of deleting this instance.</returns>
+            virtual VxResult::Value Delete() const = 0;
+            /// <summary>
+            /// Refreshes this objects member values by retrieving its current information from the VideoXpert system.
+            /// </summary>
+            /// <returns>
+            /// The <see cref="VxResult::Value">Result</see> of refreshing this objects member values.
+            /// </returns>
+            virtual VxResult::Value Refresh() = 0;
+            /// <summary>
+            /// Sets the maxAge property.
+            /// </summary>
+            /// <param name="maxAge">The new max age, in days.</param>
+            /// <returns>The <see cref="VxResult::Value">Result</see> of setting the property.</returns>
+            virtual VxResult::Value SetMaxAge(int maxAge) = 0;
+            /// <summary>
+            /// Sets the storageLocation property.
+            /// </summary>
+            /// <param name="storageLocation">The new storage location.</param>
+            /// <returns>The <see cref="VxResult::Value">Result</see> of setting the property.</returns>
+            virtual VxResult::Value SetStorageLocation(VxNetworkStorageInfo& storageLocation) = 0;
+
+        public:
+            /// <summary>
+            /// The retention limit, in days, for reports; a value of 0 will disable the limit. Any report that exceeds
+            /// this limit will be deleted.
+            /// </summary>
+            int maxAge;
+            /// <summary>
+            /// The network storage location to save report data to (used instead of local cluster storage).
+            /// </summary>
+            VxNetworkStorageInfo storageLocation;
+
+        protected:
+            /// <summary>
+            /// Clears this instance.
+            /// </summary>
+            void Clear() {
+                this->maxAge = 0;
+                this->storageLocation.Clear();
             }
         };
 
@@ -1200,12 +1410,27 @@ namespace VxSdk {
             /// <returns>The <see cref="VxResult::Value">Result</see> of setting the property.</returns>
             virtual VxResult::Value SetMonitoredDeviceIds(char** deviceIds, int deviceIdsSize) = 0;
             /// <summary>
+            /// Sets the threshold, in hours, after which recordings older than this are eligible for pruning. Any recorded
+            /// media retained longer than the threshold will be pruned as needed to free space on disk for recording.
+            /// This only applies to data source having type video. A value of 0 will disable pruning (pruning may be
+            /// enabled on a per data source basis still, see: IVxDataSource::pruningThreshold).
+            /// </summary>
+            /// <param name="pruningThreshold">The new threshold, in hours.</param>
+            /// <returns>The <see cref="VxResult::Value">Result</see> of setting the property.</returns>
+            virtual VxResult::Value SetPruningThreshold(int pruningThreshold) = 0;
+            /// <summary>
             /// Sets the retention limit, in hours, on recorded data; a value of 0 will disable the limit. Any
             /// recorded data that exceeds this limit will be deleted.
             /// </summary>
             /// <param name="retentionLimit">The new retention limit.</param>
             /// <returns>The <see cref="VxResult::Value">Result</see> of setting the property.</returns>
             virtual VxResult::Value SetRetentionLimit(int retentionLimit) = 0;
+            /// <summary>
+            /// Sets the second stream to record from all assigned data sources (when scheduled to record).
+            /// </summary>
+            /// <param name="secondaryVideoStreamRecordingSource">The new second video stream source to record.</param>
+            /// <returns>The <see cref="VxResult::Value">Result</see> of setting the property.</returns>
+            virtual VxResult::Value SetSecondaryVideoStreamRecordingSource(VxStreamSource::Value secondaryVideoStreamRecordingSource) = 0;
             /// <summary>
             /// Sets the network communication transmission type preference. Note that if the preferred communication
             /// fails, this VxStorage may attempt to utilize unicast.
@@ -1278,9 +1503,20 @@ namespace VxSdk {
             /// </summary>
             int monitoredDeviceIdsSize;
             /// <summary>
+            /// The threshold, in hours, after which recordings older than this are eligible for pruning. Any recorded
+            /// media retained longer than the threshold will be pruned as needed to free space on disk for recording.
+            /// This only applies to data source having type video. A value of 0 will disable pruning (pruning may be
+            /// enabled on a per data source basis still, see: IVxDataSource::pruningThreshold).
+            /// </summary>
+            int pruningThreshold;
+            /// <summary>
             /// The retention limit, in hours, on recorded data.
             /// </summary>
             int retentionLimit;
+            /// <summary>
+            /// The second stream to record from all assigned data sources (when scheduled to record).
+            /// </summary>
+            VxStreamSource::Value secondaryVideoStreamRecordingSource;
             /// <summary>
             /// The stream to record from for all assigned data sources (when scheduled to record).
             /// </summary>
@@ -1308,9 +1544,89 @@ namespace VxSdk {
                 this->gapFillerInterval = 0;
                 this->manualRecordingTimeout = 0;
                 this->maxOutboundBitrate = 0;
+                this->pruningThreshold = 0;
                 this->retentionLimit = 0;
+                this->secondaryVideoStreamRecordingSource = VxStreamSource::kUnknown;
                 this->videoStreamRecordingSource = VxStreamSource::kUnknown;
                 this->transmissionPreference = VxTransmissionType::kUnknown;
+            }
+        };
+
+        /// <summary>
+        /// Represents thermal elevated temperature detection configuration.
+        /// </summary>
+        struct ThermalEtd {
+        public:
+            /// <summary>
+            /// Deletes this instance.
+            /// </summary>
+            /// <returns>The <see cref="VxResult::Value">Result</see> of deleting this instance.</returns>
+            virtual VxResult::Value Delete() const = 0;
+            /// <summary>
+            /// Disables elevated temperature detection events and overlays.
+            /// </summary>
+            /// <returns>The <see cref="VxResult::Value">Result</see> of disabling elevated temp. detection.</returns>
+            virtual VxResult::Value Disable() = 0;
+            /// <summary>
+            /// Enables elevated temperature detection events and overlays.
+            /// </summary>
+            /// <returns>The <see cref="VxResult::Value">Result</see> of enabling elevated temp. detection.</returns>
+            virtual VxResult::Value Enable() = 0;
+            /// <summary>
+            /// Refreshes this objects member values by retrieving its current information from the VideoXpert system.
+            /// </summary>
+            /// <returns>
+            /// The <see cref="VxResult::Value">Result</see> of refreshing this objects member values.
+            /// </returns>
+            virtual VxResult::Value Refresh() = 0;
+            /// <summary>
+            /// Sets the normalRangeLowerBound property.
+            /// </summary>
+            /// <param name="normalRangeLowerBound">The new normalRangeLowerBound value in degrees Celsius.</param>
+            /// <returns>The <see cref="VxResult::Value">Result</see> of setting the property.</returns>
+            virtual VxResult::Value SetNormalRangeLowerBound(float normalRangeLowerBound) = 0;
+            /// <summary>
+            /// Sets the normalRangeUpperBound property.
+            /// </summary>
+            /// <param name="normalRangeUpperBound">The new normalRangeUpperBound value in degrees Celsius.</param>
+            /// <returns>The <see cref="VxResult::Value">Result</see> of setting the property.</returns>
+            virtual VxResult::Value SetNormalRangeUpperBound(float normalRangeUpperBound) = 0;
+            /// <summary>
+            /// Sets the timeout property.
+            /// </summary>
+            /// <param name="timeout">The new timeout value in seconds.</param>
+            /// <returns>The <see cref="VxResult::Value">Result</see> of setting the property.</returns>
+            virtual VxResult::Value SetTimeout(int timeout) = 0;
+
+        public:
+            /// <summary>
+            /// Indicates whether or not elevated temperature detection events and overlays are enabled.
+            /// </summary>
+            bool isEnabled;
+            /// <summary>
+            /// The lower bound of the normal temperature range, in degrees Celsius; lower temperatures will be
+            /// considered abnormally low.
+            /// </summary>
+            float normalRangeLowerBound;
+            /// <summary>
+            /// The upper bound of the normal temperature range, in degrees Celsius; higher temperatures will be
+            /// considered elevated.
+            /// </summary>
+            float normalRangeUpperBound;
+            /// <summary>
+            /// The number of seconds before a new event is emitted for the same person in view.
+            /// </summary>
+            int timeout;
+
+        protected:
+            /// <summary>
+            /// Clears this instance.
+            /// </summary>
+            void Clear() {
+                this->isEnabled = false;
+                this->normalRangeLowerBound = 0.0f;
+                this->normalRangeUpperBound = 0.0f;
+                this->timeout = 0;
             }
         };
 
@@ -1337,16 +1653,53 @@ namespace VxSdk {
             /// The <see cref="VxResult::Value">Result</see> of refreshing this objects member values.
             /// </returns>
             virtual VxResult::Value Refresh() = 0;
+            /// <summary>
+            /// Sets the list of external time servers for time synchronization.
+            /// </summary>
+            /// <param name="externalTimeServers">The external time server host addresses.</param>
+            /// <param name="externalTimeServersSize"> The size of <paramref name="externalTimeServers"/>.</param>
+            /// <returns>The <see cref="VxResult::Value">Result</see> of setting the property.</returns>
+            virtual VxResult::Value SetExternalTimeServers(char** externalTimeServers, int externalTimeServersSize) = 0;
+            /// <summary>
+            /// Sets source where the time server information comes from.
+            /// </summary>
+            /// <param name="timeServerSource">The new time server source value.</param>
+            /// <returns>The <see cref="VxResult::Value">Result</see> of setting the property.</returns>
+            virtual VxResult::Value SetTimeServerSource(VxTimeServerSource::Value timeServerSource) = 0;
+            /// <summary>
+            /// Sets the time zone of the device, for localization purposes.
+            /// </summary>
+            /// <param name="timeZone">The new time zone value.</param>
+            /// <returns>The <see cref="VxResult::Value">Result</see> of setting the property.</returns>
+            virtual VxResult::Value SetTimeZone(char timeZone[64]) = 0;
 
         public:
             /// <summary>
-            /// Indicates whether or not the external time server is enabled.
+            /// DEPRECATED
+            /// <para>Indicates whether or not the external time server is enabled.</para>
             /// </summary>
             bool isTimeServerEnabled;
             /// <summary>
-            /// The host address of the external time server.
+            /// DEPRECATED
+            /// <para>The host address of the external time server.</para>
             /// </summary>
             char timeServerAddress[64];
+            /// <summary>
+            /// The time zone of the device, for localization purposes.
+            /// </summary>
+            char timeZone[64];
+            /// <summary>
+            /// The external time servers for time synchronization, typically using the NTP protocol.
+            /// </summary>
+            char** externalTimeServers;
+            /// <summary>
+            /// The size of <see cref="externalTimeServers"/>.
+            /// </summary>
+            int externalTimeServersSize;
+            /// <summary>
+            /// The source where the time server information comes from.
+            /// </summary>
+            VxTimeServerSource::Value timeServerSource;
 
         protected:
             /// <summary>
@@ -1355,6 +1708,10 @@ namespace VxSdk {
             void Clear() {
                 this->isTimeServerEnabled = false;
                 VxZeroArray(this->timeServerAddress);
+                VxZeroArray(this->timeZone);
+                this->externalTimeServers = nullptr;
+                this->externalTimeServersSize = 0;
+                this->timeServerSource = VxTimeServerSource::kUnknown;
             }
         };
 

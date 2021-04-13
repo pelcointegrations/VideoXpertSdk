@@ -277,7 +277,25 @@ namespace VxSdk {
             /// <summary>A 1 plus 4 wide monitor layout.</summary>
             k1plus4wide,
             /// <summary>A monitor wall layout.</summary>
-            kMonitorWall
+            kMonitorWall,
+            /// <summary>A 6x6 monitor layout.</summary>
+            k6x6,
+            /// <summary>A 8x8 monitor layout.</summary>
+            k8x8
+        };
+    }; 
+
+    /// <summary>
+    /// Values that represent how the nodes in the cluster are balanced and failover.
+    /// </summary>
+    struct VxClusterAvailabilityMode {
+        enum Value {
+            /// <summary>An error or unknown value was returned.</summary>
+            kUnknown,
+            /// <summary>Utilize an external load balancer; may be used on 2..n node clusters.</summary>
+            kExternalLoadBalancer,
+            /// <summary>Utilize the internal VX load balancing algorithm; may be used on 2..3 node clusters.</summary>
+            kVxLoadBalancing
         };
     };
 
@@ -449,7 +467,11 @@ namespace VxSdk {
             /// <summary>Filter by provider type.</summary>
             kProvider,
             /// <summary>Filter by recording type.</summary>
-            kRecordType
+            kRecordType,
+            /// <summary>Filter by filename.</summary>
+            kFilename,
+            /// <summary>Filter by time discovered.</summary>
+            kDiscovered
         };
     };
 
@@ -598,7 +620,11 @@ namespace VxSdk {
             /// <summary>NSM5200 member.</summary>
             kNsmMember,
             /// <summary>Expired credentials.</summary>
-            kAuthExpired
+            kAuthExpired,
+            /// <summary>Initialization failure.</summary>
+            kFailedToInitialize,
+            /// <summary>User required.</summary>
+            kUserRequired
         };
     };
 
@@ -643,6 +669,20 @@ namespace VxSdk {
     };
 
     /// <summary>
+    /// Values that represent protocols to use for discovery.
+    /// </summary>
+    struct VxDiscoveryProtocol {
+        enum Value {
+            /// <summary>An error or unknown value was returned.</summary>
+            kUnknown,
+            /// <summary>SSDP discovery.</summary>
+            kSsdp,
+            /// <summary>WS-Discovery.</summary>
+            kWsDiscovery
+        };
+    };
+
+    /// <summary>
     /// Values that represent which provider is associated with a drawing
     /// </summary>
     struct VxDrawingProvider {
@@ -653,6 +693,30 @@ namespace VxSdk {
             kEsri,
             /// <summary>Serenity drawing provider</summary>
             kSerenity
+        };
+    };
+
+    /// <summary>
+    /// Values that represent the profile used by an encoder to select the features used.
+    /// </summary>
+    struct VxEncoderProfile {
+        enum Value {
+            /// <summary>An error or unknown value was returned.</summary>
+            kUnknown,
+            /// <summary>MPEG4 Advanced Simple profile.</summary>
+            kAdvancedSimple,
+            /// <summary>H264 Baseline profile.</summary>
+            kBaseline,
+            /// <summary>H264 Extended profile.</summary>
+            kExtended,
+            /// <summary>H264 High profile.</summary>
+            kHigh,
+            /// <summary>H264/H265 Main profile.</summary>
+            kMain,
+            /// <summary>H265 Main10 profile.</summary>
+            kMain10,
+            /// <summary>MPEG4 Simple profile.</summary>
+            kSimple
         };
     };
 
@@ -831,6 +895,30 @@ namespace VxSdk {
             kUnconfigured
         };
     };
+
+    /// <summary>
+    /// Values that represent initialization status reason indicators.
+    /// </summary>
+    struct VxInitializationStatusReason {
+        enum Value {
+            /// <summary>An error or unknown value was returned.</summary>
+            kUnknown,
+            /// <summary>Failed to establish a connection to the device.</summary>
+            kConnectFailed,
+            /// <summary>No response from the device.</summary>
+            kNoResponse,
+            /// <summary>Device not supported.</summary>
+            kNotSupported,
+            /// <summary>A server has gone offline during device discovery.</summary>
+            kServerOffline,
+            /// <summary>Encountered a SOAP fault while setting up communication with the device.</summary>
+            kSoapFault,
+            /// <summary>Timed out while waiting for a response from a device.</summary>
+            kTimedOut,
+            /// <summary>Invalid/missing credentials.</summary>
+            kUnauthenticated
+        };
+    };
  
     /// <summary>
     /// Values that represent event types sent from the VxSDK.
@@ -903,6 +991,52 @@ namespace VxSdk {
             kClose,
             /// <summary>Open the iris.</summary>
             kOpen
+        };
+    };
+
+    /// <summary>
+    /// Values that represent languages supported by VideoXpert.
+    /// </summary>
+    struct VxLanguage {
+        enum Value {
+            /// <summary>An error or unknown value was returned.</summary>
+            kUnknown,
+            /// <summary>Arabic language.</summary>
+            kArabic,
+            /// <summary>Bulgarian language.</summary>
+            kBulgarian,
+            /// <summary>Chinese language.</summary>
+            kChinese,
+            /// <summary>Croatian language.</summary>
+            kCroatian,
+            /// <summary>Czech language.</summary>
+            kCzech,
+            /// <summary>English language.</summary>
+            kEnglish,
+            /// <summary>French language.</summary>
+            kFrench,
+            /// <summary>German language.</summary>
+            kGerman,
+            /// <summary>Hungarian language.</summary>
+            kHungarian,
+            /// <summary>Italian language.</summary>
+            kItalian,
+            /// <summary>Japanese language.</summary>
+            kJapanese,
+            /// <summary>Korean language.</summary>
+            kKorean,
+            /// <summary>Polish language.</summary>
+            kPolish,
+            /// <summary>Portuguese language.</summary>
+            kPortuguese,
+            /// <summary>Romanian language.</summary>
+            kRomanian,
+            /// <summary>Russian language.</summary>
+            kRussian,
+            /// <summary>Spanish language.</summary>
+            kSpanish,
+            /// <summary>Turkish language.</summary>
+            kTurkish
         };
     };
 	
@@ -1138,7 +1272,45 @@ namespace VxSdk {
             /// <summary>Manage system servers.</summary>
             kManageSystemServers,
             /// <summary>Manage member systems.</summary>
-            kManageMemberSystems
+            kManageMemberSystems,
+            /// <summary>View Full Camera Details.</summary>
+            kViewFullCameraDetails,
+            /// <summary>Send Video.</summary>
+            kSendVideo,
+            /// <summary>Access On-Camera Storage.</summary>
+            kAccessOnCameraStorage,
+            /// <summary>Manage Private Exports.</summary>
+            kManagePrivateExports,
+            /// <summary>Download Private Exports.</summary>
+            kDownloadPrivateExports,
+            /// <summary>Stream Private Exports.</summary>
+            kStreamPrivateExports,
+            /// <summary>Create Private Exports To.</summary>
+            kCreatePrivateExportsTo,
+            /// <summary>View Exports.</summary>
+            kViewExports,
+            /// <summary>Download Exports.</summary>
+            kDownloadExports,
+            /// <summary>Stream Exports.</summary>
+            kStreamExports,
+            /// <summary>Manage My Reports.</summary>
+            kManageMyReports,
+            /// <summary>[Group] Standard surveillance activities such as viewing live media, PTZ controls, initiating recording, etc.</summary>
+            kSurveillance,
+            /// <summary>[Group] Investigative activities such as viewing/managing recorded media, initiating and retrieving exports, etc.</summary>
+            kInvestigation,
+            /// <summary>[Group] Permissions related to plug-in capabilities such as mapping and external events.</summary>
+            kPlugIns,
+            /// <summary>[Group] Supervisory activities aimed at “shift leaders”.</summary>
+            kSupervisionAndReports,
+            /// <summary>[Group] Access and management of system events.</summary>
+            kEventManagement,
+            /// <summary>[Group] Management of user accounts, roles, and authorizations.</summary>
+            kUserManagement,
+            /// <summary>[Group] Access, licensing, and management of edge devices in the system (e.g. cameras and recorders).</summary>
+            kDeviceManagement,
+            /// <summary>[Group] Access, licensing, and management of entire systems.</summary>
+            kSystemManagement
         };
     };
 
@@ -1177,6 +1349,26 @@ namespace VxSdk {
             kDES,
             /// <summary>No encryption.</summary>
             kNone
+        };
+    };
+
+    /// <summary>
+    /// Values that represent PTZ control protocols used by encoders to control analog PTZ cameras.
+    /// </summary>
+    struct VxPtzControlProtocol {
+        enum Value {
+            /// <summary>An error or unknown value was returned.</summary>
+            kUnknown,
+            /// <summary>Coaxitron protocol.</summary>
+            kCoaxitron,
+            /// <summary>D protocol.</summary>
+            kProtocolD,
+            /// <summary>PTZ control disabled.</summary>
+            kDisabled,
+            /// <summary>Extended coaxitron protocol.</summary>
+            kExtendedCoaxitron,
+            /// <summary>P protocol.</summary>
+            kProtocolP
         };
     };
 
@@ -1246,7 +1438,310 @@ namespace VxSdk {
             /// <summary>Optera 360 renderer.</summary>
             kOptera360,
             /// <summary>Standard renderer.</summary>
-            kStandard
+            kStandard,
+            /// <summary>Fisheye renderer.</summary>
+            kFisheye
+        };
+    };
+
+    struct VxReportFieldType {
+        enum Value {
+            /// <summary>An error or unknown value was returned.</summary>
+            kUnknown,
+            /// <summary>The alarm input id report field.</summary>
+            kAlarmInputId,
+            /// <summary>The alarm input name report field.</summary>
+            kAlarmInputName,
+            /// <summary>The camera stream bitrate report field.</summary>
+            kCameraStreamBitrate,
+            /// <summary>The camera stream encoding id report field.</summary>
+            kCameraStreamEncodingId,
+            /// <summary>The camera stream format report field.</summary>
+            kCameraStreamFormat,
+            /// <summary>The camera stream framerate report field.</summary>
+            kCameraStreamFramerate,
+            /// <summary>The camera stream resolution report field.</summary>
+            kCameraStreamResolution,
+            /// <summary>The configured max retention report field.</summary>
+            kConfiguredMaxRetention,
+            /// <summary>The data source id report field.</summary>
+            kDatasourceId,
+            /// <summary>The data source ip report field.</summary>
+            kDatasourceIp,
+            /// <summary>The data source name report field.</summary>
+            kDatasourceName,
+            /// <summary>The data source number report field.</summary>
+            kDatasourceNumber,
+            /// <summary>The data source recording report field.</summary>
+            kDatasourceRecording,
+            /// <summary>The data source state report field.</summary>
+            kDatasourceState,
+            /// <summary>The data source type report field.</summary>
+            kDatasourceType,
+            /// <summary>The data storage failover report field.</summary>
+            kDatastorageFailover,
+            /// <summary>The data storage id report field.</summary>
+            kDatastorageId,
+            /// <summary>The data storage name report field.</summary>
+            kDatastorageName,
+            /// <summary>The data storage retention report field.</summary>
+            kDatastorageRetention,
+            /// <summary>The data storage type report field.</summary>
+            kDatastorageType,
+            /// <summary>The device commissioned report field.</summary>
+            kDeviceCommissioned,
+            /// <summary>The device hostname report field.</summary>
+            kDeviceHostname,
+            /// <summary>The device id report field.</summary>
+            kDeviceId,
+            /// <summary>The device ip report field.</summary>
+            kDeviceIp,
+            /// <summary>The device model report field.</summary>
+            kDeviceModel,
+            /// <summary>The device name report field.</summary>
+            kDeviceName,
+            /// <summary>The device port report field.</summary>
+            kDevicePort,
+            /// <summary>The device serial report field.</summary>
+            kDeviceSerial,
+            /// <summary>The device state report field.</summary>
+            kDeviceState,
+            /// <summary>The device type report field.</summary>
+            kDeviceType,
+            /// <summary>The device vendor report field.</summary>
+            kDeviceVendor,
+            /// <summary>The device version report field.</summary>
+            kDeviceVersion,
+            /// <summary>The event ack client id report field.</summary>
+            kEventAckClientId,
+            /// <summary>The event ack client name report field.</summary>
+            kEventAckClientName,
+            /// <summary>The event ack state report field.</summary>
+            kEventAckState,
+            /// <summary>The event ack time report field.</summary>
+            kEventAckTime,
+            /// <summary>The event ack user report field.</summary>
+            kEventAckUser,
+            /// <summary>The event id report field.</summary>
+            kEventId,
+            /// <summary>The event severity report field.</summary>
+            kEventSeverity,
+            /// <summary>The event situation type report field.</summary>
+            kEventSituationType,
+            /// <summary>The event source client id report field.</summary>
+            kEventSourceClientId,
+            /// <summary>The event source device id report field.</summary>
+            kEventSourceDeviceId,
+            /// <summary>The event source device name report field.</summary>
+            kEventSourceDeviceName,
+            /// <summary>The event source user name report field.</summary>
+            kEventSourceUserName,
+            /// <summary>The event time report field.</summary>
+            kEventTime,
+            /// <summary>The field group report field.</summary>
+            kFieldGroup,
+            /// <summary>The field group camera assignments report field.</summary>
+            kFieldGroupCameraAssignments,
+            /// <summary>The field group privileges report field.</summary>
+            kFieldGroupPrivileges,
+            /// <summary>The field group stream configuration report field.</summary>
+            kFieldGroupStreamConfiguration,
+            /// <summary>The gap end report field.</summary>
+            kGapEnd,
+            /// <summary>The gap filler status report field.</summary>
+            kGapFillerStatus,
+            /// <summary>The gap reason report field.</summary>
+            kGapReason,
+            /// <summary>The gap start report field.</summary>
+            kGapStart,
+            /// <summary>The line counter count report field.</summary>
+            kLineCounterCount,
+            /// <summary>The line counter count correction report field.</summary>
+            kLineCounterCountCorrection,
+            /// <summary>The line counter end time report field.</summary>
+            kLineCounterEndTime,
+            /// <summary>The line counter in count report field.</summary>
+            kLineCounterInCount,
+            /// <summary>The line counter in count correction report field.</summary>
+            kLineCounterInCountCorrection,
+            /// <summary>The line counter name report field.</summary>
+            kLineCounterName,
+            /// <summary>The line counter out count report field.</summary>
+            kLineCounterOutCount,
+            /// <summary>The line counter out count correction report field.</summary>
+            kLineCounterOutCountCorrection,
+            /// <summary>The line counter start time report field.</summary>
+            kLineCounterStartTime,
+            /// <summary>The line counter type report field.</summary>
+            kLineCounterType,
+            /// <summary>The permission dev settings report field.</summary>
+            kPermissionDevSettings,
+            /// <summary>The permission invest clips report field.</summary>
+            kPermissionInvestClips,
+            /// <summary>The permission invest clips marks report field.</summary>
+            kPermissionInvestClipsMarks,
+            /// <summary>The permission invest clips marks locks report field.</summary>
+            kPermissionInvestClipsMarksLocks,
+            /// <summary>The permission super ptz presets report field.</summary>
+            kPermissionSuperPtzpresets,
+            /// <summary>The permission surveillance video report field.</summary>
+            kPermissionSurveilVideo,
+            /// <summary>The permission surveillance video ptz report field.</summary>
+            kPermissionSurveilVideoPtz,
+            /// <summary>The permission surveillance video ptz lock report field.</summary>
+            kPermissionSurveilVideoPtzLock,
+            /// <summary>The permission surveillance video record report field.</summary>
+            kPermissionSurveilVideoRecord,
+            /// <summary>The permission system recording report field.</summary>
+            kPermissionSysRecording,
+            /// <summary>The privilege permission report field.</summary>
+            kPrivilegePermission,
+            /// <summary>The privilege priority report field.</summary>
+            kPrivilegePriority,
+            /// <summary>The privilege restricted report field.</summary>
+            kPrivilegeRestricted,
+            /// <summary>The property ids report field.</summary>
+            kPropertyIds,
+            /// <summary>The property mods report field.</summary>
+            kPropertyMods,
+            /// <summary>The property other report field.</summary>
+            kPropertyOther,
+            /// <summary>The role id report field.</summary>
+            kRoleId,
+            /// <summary>The role name report field.</summary>
+            kRoleName,
+            /// <summary>The situation name report field.</summary>
+            kSituationName,
+            /// <summary>The status http report field.</summary>
+            kStatusHttp,
+            /// <summary>The status rtsp report field.</summary>
+            kStatusRtsp,
+            /// <summary>The status service state report field.</summary>
+            kStatusServiceState,
+            /// <summary>The system id report field.</summary>
+            kSystemId,
+            /// <summary>The system name report field.</summary>
+            kSystemName,
+            /// <summary>The system num audio data sources report field.</summary>
+            kSystemNumAudioDatasources,
+            /// <summary>The system num data storages report field.</summary>
+            kSystemNumDatastorages,
+            /// <summary>The system num devices report field.</summary>
+            kSystemNumDevices,
+            /// <summary>The system num users report field.</summary>
+            kSystemNumUsers,
+            /// <summary>The system num video data sources report field.</summary>
+            kSystemNumVideoDatasources,
+            /// <summary>The user employee id report field.</summary>
+            kUserEmployeeId,
+            /// <summary>The user first name report field.</summary>
+            kUserFirstName,
+            /// <summary>The user id report field.</summary>
+            kUserId,
+            /// <summary>The user last name report field.</summary>
+            kUserLastName,
+            /// <summary>The user name report field.</summary>
+            kUserName,
+            /// <summary>The user note report field.</summary>
+            kUserNote,
+            /// <summary>The user password expiration report field.</summary>
+            kUserPasswordExpiration,
+            /// <summary>The user phone number report field.</summary>
+            kUserPhoneNumber,
+            /// <summary>The user role names report field.</summary>
+            kUserRoleNames
+        };
+    };
+
+    /// <summary>
+    /// Values that represent a type of resource to filter by in a report.
+    /// </summary>
+    struct VxReportFilterType {
+        enum Value {
+            /// <summary>An error or unknown value was returned.</summary>
+            kUnknown,
+            /// <summary>An analytic behavior resource.</summary>
+            kAnalyticBehavior,
+            /// <summary>A data source resource.</summary>
+            kDataSource,
+            /// <summary>A data storage resource.</summary>
+            kDataStorage,
+            /// <summary>A device resource.</summary>
+            kDevice,
+            /// <summary>A role resource.</summary>
+            kRole,
+            /// <summary>A situation resource.</summary>
+            kSituation,
+            /// <summary>A user resource.</summary>
+            kUser
+        };
+    };
+
+    /// <summary>
+    /// Values that represent the status of a report.
+    /// </summary>
+    struct VxReportStatus {
+        enum Value {
+            /// <summary>An error or unknown value was returned.</summary>
+            kUnknown,
+            /// <summary>The report failed to be generated.</summary>
+            kFailed,
+            /// <summary>The report is being generated.</summary>
+            kInProgress,
+            /// <summary>The report is queued to be generated.</summary>
+            kPending,
+            /// <summary>The report was successfully generated.</summary>
+            kSuccessful
+        };
+    };
+
+    /// <summary>
+    /// Values that represent the reason for a report failing to be generated.
+    /// </summary>
+    struct VxReportStatusReason {
+        enum Value {
+            /// <summary>An error or unknown value was returned.</summary>
+            kUnknown,
+            /// <summary>The configured storage location is full.</summary>
+            kStorageFull,
+            /// <summary>The configured storage location cannot be used because the configured credentials are invalid.</summary>
+            kStorageUnauthenticated,
+            /// <summary>The configured storage location is unavailable.</summary>
+            kStorageUnavailable,
+            /// <summary>The report could not be generated because the user is not authorized to access the data required to create the report.</summary>
+            kUnauthorized
+        };
+    };
+
+    /// <summary>
+    /// Values that represent report types.
+    /// </summary>
+    struct VxReportType {
+        enum Value {
+            /// <summary>An error or unknown value was returned.</summary>
+            kUnknown,
+            /// <summary>A report about data sources.</summary>
+            kCamera,
+            /// <summary>A report about data sources accessibility by each role.</summary>
+            kCameraRoleAccess,
+            /// <summary>A report about devices.</summary>
+            kDevice,
+            /// <summary>A report about events.</summary>
+            kEvent,
+            /// <summary>A report containing analytic line counting data from data sources.</summary>
+            kLineCount,
+            /// <summary>A report about gaps.</summary>
+            kRecordingGap,
+            /// <summary>A report about roles.</summary>
+            kRole,
+            /// <summary>A report about data storages.</summary>
+            kStorage,
+            /// <summary>A report about the health of the system.</summary>
+            kSystemStatus,
+            /// <summary>A report about users.</summary>
+            kUser,
+            /// <summary>A report about user-related events.</summary>
+            kUserAction
         };
     };
 
@@ -1270,7 +1765,9 @@ namespace VxSdk {
             /// <summary>A tag resource.</summary>
             kTag,
             /// <summary>A relay output resource.</summary>
-            kRelayOutput
+            kRelayOutput,
+            /// <summary>A monitor resource.</summary>
+            kMonitor
         };
     };
 
@@ -1536,6 +2033,24 @@ namespace VxSdk {
     };
 
     /// <summary>
+    /// Values that represent Smart Compression levels, which offer a trade-off between image quality and compression efficiency.
+    /// </summary>
+    struct VxSmartCompressionLevel {
+        enum Value {
+            /// <summary>An error or unknown value was returned.</summary>
+            kUnknown,
+            /// <summary>Smart Compression is disabled.</summary>
+            kDisabled,
+            /// <summary>Allows a lot of distortion in order to achieve greater compression efficiency gains.</summary>
+            kHigh,
+            /// <summary>Allows a little distortion in order to achieve small compression efficiency gains.</summary>
+            kLow,
+            /// <summary>Allows some distortion in order to achieve medium compression efficiency gains.</summary>
+            kMedium
+        };
+    };
+
+    /// <summary>
     /// Values that represent snapshot filter types.
     /// </summary>
     struct VxSnapshotFilterItem {
@@ -1673,7 +2188,41 @@ namespace VxSdk {
             /// <summary>Professional system license.</summary>
             kProfessional,
             /// <summary>Unlicensed system.</summary>
-            kUnlicensed
+            kUnlicensed,
+            /// <summary>Camera system license.</summary>
+            kCamera
+        };
+    };
+
+    /// <summary>
+    /// Values that represent a definite length of time.
+    /// </summary>
+    struct VxTimeInterval {
+        enum Value {
+            /// <summary>An error or unknown value was returned.</summary>
+            kUnknown,
+            /// <summary>A time interval of one day.</summary>
+            kDay,
+            /// <summary>A time interval of one hour.</summary>
+            kHour,
+            /// <summary>A time interval of one month.</summary>
+            kMonth
+        };
+    };
+
+    /// <summary>
+    /// Values that represent where the time server information is obtained.
+    /// </summary>
+    struct VxTimeServerSource {
+        enum Value {
+            /// <summary>An error or unknown value was returned.</summary>
+            kUnknown,
+            /// <summary>Time server information is determined automatically, for example, from DHCP.</summary>
+            kAuto,
+            /// <summary>Time server information is provided by the user.</summary>
+            kManual,
+            /// <summary>Time server information is not provided; the time itself is set manually.</summary>
+            kNone
         };
     };
 

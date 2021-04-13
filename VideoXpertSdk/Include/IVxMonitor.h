@@ -81,6 +81,25 @@ namespace VxSdk {
         /// <returns>The <see cref="VxResult::Value">Result</see> of setting the property.</returns>
         virtual VxResult::Value SetNumber(int number) = 0;
         /// <summary>
+        /// Sets the xResolution and yResolution properties.
+        /// </summary>
+        /// <param name="xResolution">The new xResolution value.</param>
+        /// <param name="yResolution">The new yResolution value.</param>
+        /// <returns>The <see cref="VxResult::Value">Result</see> of setting the properties.</returns>
+        virtual VxResult::Value SetResolution(int xResolution, int yResolution) = 0;
+        /// <summary>
+        /// Sets the xResolution property.
+        /// </summary>
+        /// <param name="xResolution">The new xResolution value.</param>
+        /// <returns>The <see cref="VxResult::Value">Result</see> of setting the property.</returns>
+        virtual VxResult::Value SetResolutionX(int xResolution) = 0;
+        /// <summary>
+        /// Sets the yResolution property.
+        /// </summary>
+        /// <param name="yResolution">The new yResolution value.</param>
+        /// <returns>The <see cref="VxResult::Value">Result</see> of setting the property.</returns>
+        virtual VxResult::Value SetResolutionY(int yResolution) = 0;
+        /// <summary>
         /// Sets the play speed of the display data. Negative values indicate reverse speeds while positive values
         /// indicate forward speeds (1 is normal speed). A value of 0 will pause the data playback.
         /// </summary>
@@ -121,6 +140,14 @@ namespace VxSdk {
         /// </summary>
         int number;
         /// <summary>
+        /// The horizontal resolution.
+        /// </summary>
+        int xResolution;
+        /// <summary>
+        /// The vertical resolution.
+        /// </summary>
+        int yResolution;
+        /// <summary>
         /// The play speed of the display data.
         /// </summary>
         float syncSpeed;
@@ -141,6 +168,8 @@ namespace VxSdk {
             this->maximizedCell = 0;
             this->number = 0;
             this->syncSpeed = 0;
+            this->xResolution = 0;
+            this->yResolution = 0;
             this->layout = VxCellLayout::Value::k1x1;
         }
     };

@@ -21,6 +21,12 @@ namespace VxSdk {
         /// <returns>The <see cref="VxResult::Value">Result</see> of adding the role.</returns>
         virtual VxResult::Value AddRole(IVxRole& role) const = 0;
         /// <summary>
+        /// Adds a user to the list of users that this notification serves.
+        /// </summary>
+        /// <param name="user">The user to add.</param>
+        /// <returns>The <see cref="VxResult::Value">Result</see> of adding the user.</returns>
+        virtual VxResult::Value AddUser(IVxUser& user) const = 0;
+        /// <summary>
         /// Deletes this instance.
         /// </summary>
         /// <returns>The <see cref="VxResult::Value">Result</see> of deleting this instance.</returns>
@@ -38,16 +44,29 @@ namespace VxSdk {
         /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
         virtual VxResult::Value GetRoles(VxCollection<IVxRole**>& roleCollection) const = 0;
         /// <summary>
+        /// Gets the users that will receive this notification.
+        /// <para>Available filters: kAdvancedQuery, kId, kInternal, kModifiedSince, kName.</para>
+        /// </summary>
+        /// <param name="userCollection">The users that will receive this notification.</param>
+        /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
+        virtual VxResult::Value GetUsers(VxCollection<IVxUser**>& userCollection) const = 0;
+        /// <summary>
         /// Refreshes this objects member values by retrieving its current information from the VideoXpert system.
         /// </summary>
         /// <returns>The <see cref="VxResult::Value">Result</see> of refreshing this objects member values.</returns>
         virtual VxResult::Value Refresh() = 0;
         /// <summary>
-        /// Remmoves a role from the list of roles that this notification serves.
+        /// Removes a role from the list of roles that this notification serves.
         /// </summary>
         /// <param name="role">The role to remove.</param>
         /// <returns>The <see cref="VxResult::Value">Result</see> of removing the role.</returns>
         virtual VxResult::Value RemoveRole(IVxRole& role) = 0;
+        /// <summary>
+        /// Removes a user from the list of users that this notification serves.
+        /// </summary>
+        /// <param name="user">The role to user.</param>
+        /// <returns>The <see cref="VxResult::Value">Result</see> of removing the user.</returns>
+        virtual VxResult::Value RemoveUser(IVxUser& user) = 0;
 
     public:
         /// <summary>
@@ -59,9 +78,17 @@ namespace VxSdk {
         /// </summary>
         char** roleIds;
         /// <summary>
+        /// The ids for each user that should receive this notification.
+        /// </summary>
+        char** userIds;
+        /// <summary>
         /// The size of <see cref="roleIds"/>.
         /// </summary>
         int roleIdSize;
+        /// <summary>
+        /// The size of <see cref="userIds"/>.
+        /// </summary>
+        int userIdSize;
 
     protected:
         /// <summary>
@@ -70,7 +97,9 @@ namespace VxSdk {
         void Clear() {
             VxZeroArray(this->id);
             this->roleIds = nullptr;
+            this->userIds = nullptr;
             this->roleIdSize = 0;
+            this->userIdSize = 0;
         }
     };
 }

@@ -14,6 +14,7 @@
 #include "IVxAnalyticSession.h"
 
 namespace VxSdk {
+    struct IVxFile;
     struct IVxDbBackups;
     struct IVxDataStorage;
     struct IVxDeviceAssignment;
@@ -80,6 +81,19 @@ namespace VxSdk {
         /// </param>
         /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
         virtual VxResult::Value GetAnalyticSessions(VxCollection<IVxAnalyticSession**>& analyticSessionCollection) const = 0;
+        /// <summary>
+        /// Gets the authentication configuration.
+        /// </summary>
+        /// <param name="authConfig">The authentication configuration.</param>
+        /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
+        virtual VxResult::Value GetAuthenticationConfiguration(IVxConfiguration::Auth*& authConfig) const = 0;
+        /// <summary>
+        /// Gets a backup of the device configuration.
+        /// </summary>
+        /// <param name="endpoint">The backup endpoint.</param>
+        /// <param name="size">The size of <paramref name="endpoint"/>.</param>
+        /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
+        virtual VxResult::Value GetBackup(char* endpoint, int& size) const = 0;
         /// <summary>
         /// Gets the data sources hosted by this device.
         /// <para>
@@ -151,6 +165,18 @@ namespace VxSdk {
         /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
         virtual VxResult::Value GetRelayOutputs(VxCollection<IVxRelayOutput**>& relayOutputCollection) const = 0;
         /// <summary>
+        /// Gets the thermal elevated temperature detection configuration.
+        /// </summary>
+        /// <param name="thermalEtdConfig">The thermal elevated temperature detection configuration, if available.</param>
+        /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
+        virtual VxResult::Value GetThermalEtdConfiguration(IVxConfiguration::ThermalEtd*& thermalEtdConfig) const = 0;
+        /// <summary>
+        /// Gets the time configuration.
+        /// </summary>
+        /// <param name="timeConfig">The time configuration.</param>
+        /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
+        virtual VxResult::Value GetTimeConfiguration(IVxConfiguration::Time*& timeConfig) const = 0;
+        /// <summary>
         /// Gets a value indicating whether this device provides any diagnostic information.
         /// </summary>
         /// <param name="hasDiagnostics">
@@ -169,6 +195,12 @@ namespace VxSdk {
         /// <param name="replacementDeviceId">The ID of the replacement device</param>
         /// <returns>The <see cref="VxResult::Value">Result</see> of replacing this device.</returns>
         virtual VxResult::Value Replace(const char* replacementDeviceId) = 0;
+        /// <summary>
+        /// Restores a backup of the device configuration.
+        /// </summary>
+        /// <param name="backupPath">The local path to the backup file.</param>
+        /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
+        virtual VxResult::Value RestoreBackup(char* backupPath) = 0;
         /// <summary>
         /// Sets the port property.
         /// </summary>
@@ -237,6 +269,12 @@ namespace VxSdk {
         /// The <see cref="VxResult::Value">Result</see> of refreshing the <see cref="IVxDevice"/>.
         /// </returns>
         virtual VxResult::Value TriggerRefresh() = 0;
+        /// <summary>
+        /// Updates the software running on the device.
+        /// </summary>
+        /// <param name="updateFile">The software update file.</param>
+        /// <returns>The <see cref="VxResult::Value">Result</see> of updating the software.</returns>
+        virtual VxResult::Value UpdateSoftware(IVxFile& updateFile) const = 0;
 
     public:
         /// <summary>
@@ -247,6 +285,10 @@ namespace VxSdk {
         /// Indicates whether a license is required for commissioning the device.
         /// </summary>
         bool isLicenseRequired;
+        /// <summary>
+        /// The time when this device was discovered.
+        /// </summary>
+        char discovered[64];
         /// <summary>
         /// The driver device identifier.
         /// </summary>
@@ -268,6 +310,10 @@ namespace VxSdk {
         /// The IP of the device.
         /// </summary>
         char ip[64];
+        /// <summary>
+        /// The device MAC address.
+        /// </summary>
+        char macAddress[64];
         /// <summary>
         /// The device model name.
         /// </summary>
@@ -296,6 +342,10 @@ namespace VxSdk {
         /// The virtual IP of the device, if any.
         /// </summary>
         char virtualIp[64];
+        /// <summary>
+        /// The product webapp URL.
+        /// </summary>
+        char webappUrl[512];
         /// <summary>
         /// List of source URIs that the device will support.
         /// </summary>
@@ -340,6 +390,10 @@ namespace VxSdk {
         /// The type of device.
         /// </summary>
         VxDeviceType::Value type;
+        /// <summary>
+        /// The error status reason when device initialization failed.
+        /// </summary>
+        VxInitializationStatusReason::Value initializationStatusReason;
 
     public:
         /// <summary>
@@ -348,11 +402,13 @@ namespace VxSdk {
         void Clear() {
             this->isCommissioned = false;
             this->isLicenseRequired = false;
+            VxZeroArray(this->discovered);
             VxZeroArray(this->driverDeviceId);
             VxZeroArray(this->driverTypeId);
             VxZeroArray(this->hostname);
             VxZeroArray(this->id);
             VxZeroArray(this->ip);
+            VxZeroArray(this->macAddress);
             VxZeroArray(this->model);
             VxZeroArray(this->name);
             VxZeroArray(this->serial);
@@ -360,6 +416,7 @@ namespace VxSdk {
             VxZeroArray(this->vendor);
             VxZeroArray(this->version);
             VxZeroArray(this->virtualIp);
+            VxZeroArray(this->webappUrl);
             this->port = 0;
             this->endpointsSize = 0;
             this->licensableFeaturesSize = 0;
@@ -371,6 +428,7 @@ namespace VxSdk {
             this->status = nullptr;
             this->state = VxDeviceState::kUnknown;
             this->type = VxDeviceType::kUnknown;
+            this->initializationStatusReason = VxInitializationStatusReason::kUnknown;
         }
     };
 }

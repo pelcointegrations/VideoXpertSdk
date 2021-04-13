@@ -15,6 +15,7 @@
 #include "IVxGap.h"
 #include "IVxBookmark.h"
 #include "IVxAnalyticSession.h"
+#include "IVxDataSourceConfig.h"
 
 namespace VxSdk {
     struct IVxMember;
@@ -188,6 +189,13 @@ namespace VxSdk {
         /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
         virtual VxResult::Value GetLimits(VxLimits*& limits) const = 0;
         /// <summary>
+        /// Gets the requested line counts for this data source.
+        /// </summary>
+        /// <param name="lineCountingRequest">The requested line counts.</param>
+        /// <param name="lineCounts"><c>nullptr</c> if the request fails, else the <see cref="VxLineCounts"/>.</param>
+        /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
+        virtual VxResult::Value GetLineCounts(VxLineCountingRequest& lineCountingRequest, VxLineCounts*& lineCounts) const = 0;
+        /// <summary>
         /// Gets the <see cref="IVxMember"/> that this data source resides in.
         /// </summary>
         /// <param name="member">The <see cref="IVxMember"/> this data source resides in..</param>
@@ -203,7 +211,22 @@ namespace VxSdk {
         /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
         virtual VxResult::Value GetMetadataRelations(VxCollection<IVxResourceRel**>& resourceRelCollection) const = 0;
         /// <summary>
+        /// Gets the URI to the download location of a metadata "snapshot" from this data source. 
+        /// </summary>
+        /// <param name="endpoint">The metadata snapshot endpoint.</param>
+        /// <param name="size">The size of <paramref name="endpoint"/>.</param>
+        /// <param name="time">The point in time of the metadata to return (defaults to the current time if not supplied).</param>
+        /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
+        virtual VxResult::Value GetMetadataSnapshotEndpoint(char* endpoint, int& size, char time[64]) const = 0;
+        /// <summary>
         /// Gets the motion detection configuration for this data source, if supported.
+        /// </summary>
+        /// <param name="motionConfig">The motion configuration if supported, otherwise <c>nullptr</c>.</param>
+        /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
+        virtual VxResult::Value GetMotionConfiguration(IVxDataSourceConfig::Motion*& motionConfig) const = 0;
+        /// <summary>
+        /// DEPRECATED
+        /// <para>Gets the motion detection configuration for this data source, if supported.</para>
         /// </summary>
         /// <param name="motionConfig">The motion configuration if supported, otherwise <c>nullptr</c>.</param>
         /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
@@ -217,6 +240,12 @@ namespace VxSdk {
         /// </param>
         /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
         virtual VxResult::Value GetMultiviewInfo(VxCollection<IVxUserInfo**>& userInfoCollection) const = 0;
+        /// <summary>
+        /// Gets the PTZ configuration for this data source, if supported.
+        /// </summary>
+        /// <param name="ptzConfig">The PTZ configuration if supported, otherwise <c>nullptr</c>.</param>
+        /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
+        virtual VxResult::Value GetPtzConfiguration(IVxDataSourceConfig::Ptz*& ptzConfig) const = 0;
         /// <summary>
         /// Gets the <see cref="IVxPtzController"/> associated with this data source.
         /// </summary>
@@ -233,6 +262,12 @@ namespace VxSdk {
         /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
         virtual VxResult::Value GetRtspEndpoint(char* endpoint, int& size) const = 0;
         /// <summary>
+        /// Gets the smart compression configuration for this data source, if supported.
+        /// </summary>
+        /// <param name="smartCompressionConfig">The smart compression configuration if supported, otherwise <c>nullptr</c>.</param>
+        /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
+        virtual VxResult::Value GetSmartCompressionConfiguration(IVxDataSourceConfig::SmartCompression*& smartCompressionConfig) const = 0;
+        /// <summary>
         /// Gets the tags associated with this data source.
         /// <para>
         /// Available filters: kAdvancedQuery, kFolder, kId, kModifiedSince, kName, kOwned, kOwner, kParentId,
@@ -242,6 +277,12 @@ namespace VxSdk {
         /// <param name="tagCollection">A <see cref="VxCollection"/> of the associated tags.</param>
         /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
         virtual VxResult::Value GetTags(VxCollection<IVxTag**>& tagCollection) const = 0;
+        /// <summary>
+        /// Gets the video encoding configurations for this data source, if supported.
+        /// </summary>
+        /// <param name="videoEncodingCollection">A <see cref="VxCollection"/> of the video encoding configurations.</param>
+        /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
+        virtual VxResult::Value GetVideoEncodingsConfiguration(VxCollection<IVxDataSourceConfig::VideoEncoding**>& videoEncodingCollection) const = 0;
         /// <summary>
         /// Gets all possible video resource relations for this data source (both linked and non-linked). Each linked
         /// resource shall be considered to be associated to this data source while non-linked resources shall not be
@@ -268,6 +309,12 @@ namespace VxSdk {
         /// <param name="number">The new number value.</param>
         /// <returns>The <see cref="VxResult::Value">Result</see> of setting the property.</returns>
         virtual VxResult::Value SetNumber(int number) = 0;
+        /// <summary>
+        /// Sets the pruningThreshold property.
+        /// </summary>
+        /// <param name="pruningThreshold">The new threshold, in hours.</param>
+        /// <returns>The <see cref="VxResult::Value">Result</see> of setting the property.</returns>
+        virtual VxResult::Value SetPruningThreshold(int pruningThreshold) = 0;
         /// <summary>
         /// Sets the retentionLimit property.
         /// </summary>
@@ -346,6 +393,13 @@ namespace VxSdk {
         /// </summary>
         int number;
         /// <summary>
+        /// The threshold, in hours, after which recordings older than this are eligible for pruning. Any recorded media
+        /// retained longer than the threshold will be pruned as needed to free space on disk for recording. If set,
+        /// this value overrides the threshold in IVxConfiguration::Storage. This is only applicable when the data
+        /// source type is video. A value of 0 will disable pruning.
+        /// </summary>
+        int pruningThreshold;
+        /// <summary>
         /// The maximum retention (in hours) that the system will keep recorded data for this data source. Any recorded
         /// data that exceeds this limit will be deleted. If <see cref="IVxConfiguration::Storage::retentionLimit"/> is
         /// also set, the lowest non-zero value will be used. A value of 0 means no retention limit will be used.
@@ -392,6 +446,7 @@ namespace VxSdk {
             this->index = 0;
             this->linkedPtzInfoSize = 0;
             this->number = 0;
+            this->pruningThreshold = 0;
             this->retentionLimit = 0;
             this->isCapturing = false;
             this->isEnabled = false;

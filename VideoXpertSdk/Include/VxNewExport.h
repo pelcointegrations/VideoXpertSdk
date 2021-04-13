@@ -27,6 +27,7 @@ namespace VxSdk {
             Utilities::StrCopySafe(this->name, ref.name);
             Utilities::StrCopySafe(this->password, ref.password);
             this->format = ref.format;
+            this->alternateLocation = VxNetworkStorageInfo(ref.alternateLocation);
             this->clipSize = ref.clipSize;
             this->clips = nullptr;
             if (ref.clips != nullptr) {
@@ -52,6 +53,7 @@ namespace VxSdk {
             this->format = VxExportFormat::kUnknown;
             this->clipSize = 0;
             this->clips = nullptr;
+            this->alternateLocation.Clear();
         }
 
     public:
@@ -72,6 +74,10 @@ namespace VxSdk {
         /// The export format to use.
         /// </summary>
         VxExportFormat::Value format;
+        /// <summary>
+        /// If specified, the export will be saved to this alternate network location.
+        /// </summary>
+        VxNetworkStorageInfo alternateLocation;
         /// <summary>
         /// The clips that shall be included in this export when triggered.
         /// </summary>

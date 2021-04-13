@@ -26,7 +26,9 @@ namespace VxSdk {
             Utilities::StrCopySafe(this->hostDeviceId, ref.hostDeviceId);
             Utilities::StrCopySafe(this->name, ref.name);
             this->number = ref.number;
-            layout = ref.layout;
+            this->xResolution = ref.xResolution;
+            this->yResolution = ref.yResolution;
+            this->layout = ref.layout;
         }
 
         /// <summary>
@@ -42,8 +44,10 @@ namespace VxSdk {
         void Clear() {
             VxZeroArray(this->hostDeviceId);
             VxZeroArray(this->name);
-            number = 0;
-            layout = VxCellLayout::k1x1;
+            this->number = 0;
+            this->xResolution = 0;
+            this->yResolution = 0;
+            this->layout = VxCellLayout::k1x1;
         }
 
 
@@ -60,6 +64,14 @@ namespace VxSdk {
         /// The unique number of the monitor.
         /// </summary>
         int number;
+        /// <summary>
+        /// The horizontal resolution.
+        /// </summary>
+        int xResolution;
+        /// <summary>
+        /// The vertical resolution.
+        /// </summary>
+        int yResolution;
         /// <summary>
         /// The cell grid layout of the monitor.
         /// </summary>

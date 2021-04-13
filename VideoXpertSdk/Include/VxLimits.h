@@ -111,6 +111,14 @@ namespace VxSdk {
                 this->defaultValue = ref.defaultValue;
                 this->max = ref.max;
                 this->min = ref.min;
+                this->optionsSize = ref.optionsSize;
+                this->options = nullptr;
+                if (ref.options != nullptr) {
+                    this->options = new float[ref.optionsSize];
+                    for (int i = 0; i < ref.optionsSize; i++) {
+                        this->options[i] = ref.options[i];
+                    }
+                }
             }
 
             /// <summary>
@@ -131,6 +139,8 @@ namespace VxSdk {
                 this->defaultValue = 0;
                 this->max = 0;
                 this->min = 0;
+                this->options = nullptr;
+                this->optionsSize = 0;
             }
 
         public:
@@ -147,6 +157,11 @@ namespace VxSdk {
             /// </summary>
             bool hasMin;
             /// <summary>
+            /// A list of valid values that may be applied to the field.
+            /// If no values are present, this indicates that the field is currently read-only.
+            /// </summary>
+            float* options;
+            /// <summary>
             /// The name of the field that this float limit applies to.
             /// </summary>
             char fieldName[128];
@@ -162,6 +177,10 @@ namespace VxSdk {
             /// The field’s minimum valid value.
             /// </summary>
             float min;
+            /// <summary>
+            /// The size of <see cref="options"/>.
+            /// </summary>
+            int optionsSize;
         };
 
         /// <summary>
@@ -324,6 +343,16 @@ namespace VxSdk {
             /// <param name="ref">The reference.</param>
             Object(const Object& ref) {
                 Utilities::StrCopySafe(this->fieldName, ref.fieldName);
+                this->optionsSize = ref.optionsSize;
+                this->options = nullptr;
+                if (ref.options != nullptr) {
+                    this->options = new char* [ref.optionsSize];
+                    for (int i = 0; i < ref.optionsSize; i++) {
+                        const size_t len = strlen(ref.options[i]) + 1;
+                        this->options[i] = new char[len];
+                        Utilities::StrCopySafe(this->options[i], ref.options[i], len);
+                    }
+                }
             }
 
             /// <summary>
@@ -338,6 +367,8 @@ namespace VxSdk {
             /// </summary>
             void Clear() {
                 VxZeroArray(this->fieldName);
+                this->options = nullptr;
+                this->optionsSize = 0;
             }
 
         public:
@@ -345,6 +376,15 @@ namespace VxSdk {
             /// The name of the field that this object limit applies to.
             /// </summary>
             char fieldName[128];
+            /// <summary>
+            /// A list of valid values that may be applied to the field.
+            /// If no values are present, this indicates that the field is currently read-only.
+            /// </summary>
+            char** options;
+            /// <summary>
+            /// The size of <see cref="options"/>.
+            /// </summary>
+            int optionsSize;
         };
 
         /// <summary>

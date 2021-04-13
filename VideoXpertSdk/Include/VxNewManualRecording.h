@@ -6,7 +6,7 @@
 
 namespace VxSdk {
     /// <summary>
-    /// DEPRECATED: Replaced by <see cref="VxNewRecording"/>
+    /// DEPRECATED: Replaced by VxNewRecording.
     /// <para>
     /// Represents a request for a new manual recording to be generated.
     /// </para>

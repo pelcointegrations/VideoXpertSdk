@@ -33,6 +33,17 @@ namespace VxSdk {
                     Utilities::StrCopySafe(this->roleIds[i], ref.roleIds[i], len);
                 }
             }
+
+            this->userIdSize = ref.userIdSize;
+            this->userIds = nullptr;
+            if (ref.userIds != nullptr) {
+                this->userIds = new char* [ref.userIdSize];
+                for (int i = 0; i < ref.userIdSize; i++) {
+                    const size_t len = strlen(ref.userIds[i]) + 1;
+                    this->userIds[i] = new char[len];
+                    Utilities::StrCopySafe(this->userIds[i], ref.userIds[i], len);
+                }
+            }
         }
 
         /// <summary>
@@ -47,7 +58,9 @@ namespace VxSdk {
         /// </summary>
         void Clear() {
             this->roleIds = nullptr;
+            this->userIds = nullptr;
             this->roleIdSize = 0;
+            this->userIdSize = 0;
         }
 
     public:
@@ -56,9 +69,17 @@ namespace VxSdk {
         /// </summary>
         char** roleIds;
         /// <summary>
+        /// The ids for each user that should receive this notification.
+        /// </summary>
+        char** userIds;
+        /// <summary>
         /// The size of <see cref="roleIds"/>.
         /// </summary>
         int roleIdSize;
+        /// <summary>
+        /// The size of <see cref="userIds"/>.
+        /// </summary>
+        int userIdSize;
     };
 }
 

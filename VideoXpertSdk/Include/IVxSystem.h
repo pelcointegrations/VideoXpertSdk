@@ -27,6 +27,7 @@
 #include "VxNewUser.h"
 
 namespace VxSdk {
+    struct VxPermissionSchema;
     struct VxNewTimeTable;
     struct VxNewDevice;
 
@@ -71,6 +72,13 @@ namespace VxSdk {
         /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
         virtual VxResult::Value AddDrawing(VxNewDrawing& newDrawing) const = 0;
         /// <summary>
+        /// Adds a new file based on the given file path. 
+        /// </summary>
+        /// <param name="filePath">The local path to the file.</param>
+        /// <param name="filename">The filename of the associated file data.</param>
+        /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
+        virtual VxResult::Value AddFile(char* filePath, char filename[256]) const = 0;
+        /// <summary>
         /// DEPRECATED: Replaced by <see cref="IVxSystem::AddRecording"/>
         /// <para>Adds a new manual recording to the VideoXpert system.</para>
         /// </summary>
@@ -95,6 +103,12 @@ namespace VxSdk {
         /// </param>
         /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
         virtual VxResult::Value AddRecording(VxNewRecording& newRecording, IVxRecording*& recordingItem) const = 0;
+        /// <summary>
+        /// Creates a new report template.
+        /// </summary>
+        /// <param name="newReportTemplate">The new report template to be added.</param>
+        /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
+        virtual VxResult::Value AddReportTemplate(VxNewReportTemplate& newReportTemplate) const = 0;
         /// <summary>
         /// Adds a new role to the system.
         /// </summary>
@@ -157,6 +171,13 @@ namespace VxSdk {
         /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
         virtual VxResult::Value CreateMonitorWall(const char* monitorWallName) const = 0;
         /// <summary>
+        /// Creates a new report on the VideoXpert system.
+        /// </summary>
+        /// <param name="newReport">The new report to be generated on the system.</param>
+        /// <param name="reportItem"><c>nullptr</c> if it fails, else the new <see cref="IVxReport"/>.</param>
+        /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
+        virtual VxResult::Value CreateReport(VxNewReport& newReport, IVxReport*& reportItem) const = 0;
+        /// <summary>
         /// Deletes this instance.
         /// </summary>
         /// <returns>The <see cref="VxResult::Value">Result</see> of deleting this instance.</returns>
@@ -194,6 +215,21 @@ namespace VxSdk {
         /// <param name="authConfig">The authentication configuration.</param>
         /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
         virtual VxResult::Value GetAuthenticationConfiguration(IVxConfiguration::Auth*& authConfig) const = 0;
+        /// <summary>
+        /// Gets the available report templates representing the default template for each report type. These defaults
+        /// act as a schema for each report type, providing all available fields and filters that may be used in the
+        /// report template for that report type.
+        /// </summary>
+        /// <param name="defaultReportTemplates">The list of default report templates.</param>
+        /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
+        virtual VxResult::Value GetAvailableReportTemplates(VxCollection<VxNewReportTemplate**>& defaultReportTemplates) const = 0;
+        /// <summary>
+        /// Gets the list of available event types that may be used within a schedule trigger.
+        /// </summary>
+        /// <param name="situationTypes">The list of situation types.</param>
+        /// <param name="size">The size of <paramref name="situationTypes"/></param>
+        /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
+        virtual VxResult::Value GetAvailableScheduleTriggerEvents(char** situationTypes, int& size) const = 0;
         /// <summary>
         /// Gets the current bookmark automatic unlock time value.
         /// </summary>
@@ -271,7 +307,7 @@ namespace VxSdk {
         /// <summary>
         /// Gets the devices from the VideoXpert system.
         /// <para>
-        /// Available filters: kAdvancedQuery, kCommissioned, kDriverType, kHasStatus, kId, kIp, kModel,
+        /// Available filters: kAdvancedQuery, kCommissioned, kDiscovered, kDriverType, kHasStatus, kId, kIp, kModel,
         /// kModifiedSince, kName, kSerial, kState, kType, kVendor, kVersion.
         /// </para>
         /// </summary>
@@ -280,6 +316,12 @@ namespace VxSdk {
         /// </param>
         /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
         virtual VxResult::Value GetDevices(VxCollection<IVxDevice**>& deviceCollection) const = 0;
+        /// <summary>
+        /// Gets the current discovery status.
+        /// </summary>
+        /// <param name="discovery">The discovery status.</param>
+        /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
+        virtual VxResult::Value GetDiscoveryStatus(IVxDiscovery*& discovery) const = 0;
         /// <summary>
         /// Gets the drawings from the VideoXpert system.
         /// <para>Available filters: kAdvancedQuery, kImageType, kModifiedSince, kName, kProvider.</para>
@@ -297,6 +339,12 @@ namespace VxSdk {
         /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
         virtual VxResult::Value GetDrivers(VxCollection<IVxDriver**>& driverCollection) const = 0;
         /// <summary>
+        /// Gets the event configuration.
+        /// </summary>
+        /// <param name="eventConfig">The event configuration.</param>
+        /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
+        virtual VxResult::Value GetEventConfiguration(IVxConfiguration::Event*& eventConfig) const = 0;
+        /// <summary>
         /// Gets the events residing on the system.
         /// <para>
         /// Available filters: kAdvancedQuery, kAckState, kAckUser, kGeneratorDeviceId, kId, kModifiedSince, kNotifies,
@@ -307,6 +355,19 @@ namespace VxSdk {
         /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
         virtual VxResult::Value GetEvents(VxCollection<IVxEvent**>& eventCollection) const = 0;
         /// <summary>
+        /// Gets the export configuration.
+        /// </summary>
+        /// <param name="exportConfig">The export configuration.</param>
+        /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
+        virtual VxResult::Value GetExportConfiguration(IVxConfiguration::Export*& exportConfig) const = 0;
+        /// <summary>
+        /// Gets the estimate information for a given set of export criteria. This does not perform an actual export operation.
+        /// </summary>
+        /// <param name="newExport">The export to request an estimate for.</param>
+        /// <param name="exportEstimate">The export estimate.</param>
+        /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
+        virtual VxResult::Value GetExportEstimate(VxNewExport& newExport, VxExportEstimate*& exportEstimate) const = 0;
+        /// <summary>
         /// Gets the exports residing on the system.
         /// <para>
         /// Available filters: kDataSourceAllTags, kDataSourceAllPrivateTags, kDataSourceName, kDataSourceNumber,
@@ -316,6 +377,15 @@ namespace VxSdk {
         /// <param name="exportCollection">A <see cref="VxCollection"/> of the exports residing on the system.</param>
         /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
         virtual VxResult::Value GetExports(VxCollection<IVxExport**>& exportCollection) const = 0;
+        /// <summary>
+        /// Gets the files residing on the system.
+        /// <para>
+        /// Available filters: kFilename, kId.
+        /// </para>
+        /// </summary>
+        /// <param name="fileCollection">A <see cref="VxCollection"/> of the files residing on the system.</param>
+        /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
+        virtual VxResult::Value GetFiles(VxCollection<IVxFile**>& fileCollection) const = 0;
         /// <summary>
         /// Gets the <see cref="IVxDevice"/> that hosts this system.
         /// </summary>
@@ -390,12 +460,42 @@ namespace VxSdk {
         /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
         virtual VxResult::Value GetRelayOutputs(VxCollection<IVxRelayOutput**>& relayOutputCollection) const = 0;
         /// <summary>
+        /// Gets the report configuration.
+        /// </summary>
+        /// <param name="reportConfig">The report configuration.</param>
+        /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
+        virtual VxResult::Value GetReportConfiguration(IVxConfiguration::Report*& reportConfig) const = 0;
+        /// <summary>
+        /// Gets the reports residing on the system.
+        /// <para>Available filters: kAdvancedQuery, kId, kModifiedSince, kName, kOwner.</para>
+        /// </summary>
+        /// <param name="reportCollection">
+        /// A <see cref="VxCollection"/> of the reports residing on the system.
+        /// </param>
+        /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
+        virtual VxResult::Value GetReports(VxCollection<IVxReport**>& reportCollection) const = 0;
+        /// <summary>
+        /// Gets the report templates residing on the system.
+        /// <para>Available filters: kAdvancedQuery, kId, kModifiedSince, kName, kOwner.</para>
+        /// </summary>
+        /// <param name="reportTemplateCollection">
+        /// A <see cref="VxCollection"/> of the report templates residing on the system.
+        /// </param>
+        /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
+        virtual VxResult::Value GetReportTemplates(VxCollection<IVxReportTemplate**>& reportTemplateCollection) const = 0;
+        /// <summary>
         /// Gets the roles residing on the system.
         /// <para>Available filters: kAdvancedQuery, kId, kInternal, kModifiedSince, kName.</para>
         /// </summary>
         /// <param name="roleCollection">A <see cref="VxCollection"/> of roles residing on the system.</param>
         /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
         virtual VxResult::Value GetRoles(VxCollection<IVxRole**>& roleCollection) const = 0;
+        /// <summary>
+        /// Gets the ordered permission schema information for roles.
+        /// </summary>
+        /// <param name="permissionSchema">The permission schema.</param>
+        /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
+        virtual VxResult::Value GetRolePermissionSchema(VxPermissionSchema*& permissionSchema) const = 0;
         /// <summary>
         /// Gets the rules residing on the system.
         /// <para>Available filters: kAdvancedQuery, kId, kModifiedSince, kName, kNumber.</para>
@@ -456,6 +556,12 @@ namespace VxSdk {
         /// <param name="tagCollection">A <see cref="VxCollection"/> of tags residing on the system.</param>
         /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
         virtual VxResult::Value GetTags(VxCollection<IVxTag**>& tagCollection) const = 0;
+        /// <summary>
+        /// Gets the time configuration.
+        /// </summary>
+        /// <param name="timeConfig">The time configuration.</param>
+        /// <returns>The <see cref="VxResult::Value">Result</see> of the request.</returns>
+        virtual VxResult::Value GetTimeConfiguration(IVxConfiguration::Time*& timeConfig) const = 0;
         /// <summary>
         /// Gets the time tables residing on the system.
         /// <para>Available filters: kAdvancedQuery, kId, kModifiedSince, kName.</para>

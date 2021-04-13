@@ -4,6 +4,7 @@
 #include "VxPrimitives.h"
 #include "VxUtilities.h"
 #include "VxMacros.h"
+#include "VxRuleResponse.h"
 #include "VxRuleTrigger.h"
 
 namespace VxSdk {
@@ -27,6 +28,14 @@ namespace VxSdk {
             this->isEnabled = ref.isEnabled;
             Utilities::StrCopySafe(this->name, ref.name);
             this->script = ref.script;
+            this->responseSize = ref.responseSize;
+            this->responses = nullptr;
+            if (ref.responses != nullptr) {
+                this->responses = new VxRuleResponse[ref.responseSize];
+                for (int i = 0; i < ref.responseSize; i++)
+                    this->responses[i] = VxRuleResponse(ref.responses[i]);
+            }
+
             this->timeTableIdSize = ref.timeTableIdSize;
             this->timeTableIds = nullptr;
             if (ref.timeTableIds != nullptr) {
@@ -60,10 +69,12 @@ namespace VxSdk {
         void Clear() {
             this->isEnabled = false;
             VxZeroArray(this->name);
-            this->script = nullptr;
-            this->timeTableIds = nullptr;
+            this->responseSize = 0;
             this->timeTableIdSize = 0;
             this->triggerSize = 0;
+            this->script = nullptr;
+            this->responses = nullptr;
+            this->timeTableIds = nullptr;
             this->triggers = nullptr;
         }
 
@@ -77,7 +88,8 @@ namespace VxSdk {
         /// </summary>
         char name[64];
         /// <summary>
-        /// The script to run when the rule is triggered.
+        /// DEPRECATED
+        /// <para>The script to run when the rule is triggered.</para>
         /// </summary>
         char* script;
         /// <summary>
@@ -88,6 +100,10 @@ namespace VxSdk {
         /// </summary>
         char** timeTableIds;
         /// <summary>
+        /// The size of <see cref="responses"/>.
+        /// </summary>
+        int responseSize;
+        /// <summary>
         /// The size of <see cref="timeTableIds"/>.
         /// </summary>
         int timeTableIdSize;
@@ -95,6 +111,11 @@ namespace VxSdk {
         /// The size of <see cref="triggers"/>.
         /// </summary>
         int triggerSize;
+        /// <summary>
+        /// The list of responses that will be executed when this rule is triggered. The order of this list is the
+        /// order in which the responses will execute.
+        /// </summary>
+        VxRuleResponse* responses;
         /// <summary>
         /// The triggers that, when any activate, cause the rule to run its script. If empty or null, this rule must be
         /// manually triggered.
